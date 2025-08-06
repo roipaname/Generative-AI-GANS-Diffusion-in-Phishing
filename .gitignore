@@ -209,4 +209,5 @@ data/raw/gpt/large-762M-k40.valid.csv
 data/raw/gpt/large-762M-k40.test.csv
 
 #large files
+data/
 data/raw/gpt/
