@@ -2,7 +2,7 @@
 import torch, torch.nn as nn # type: ignore
 from torch.utils.data import Dataset, DataLoader # type: ignore
 import tiktoken # type: ignore
-
+import pandas as pd # type: ignore
 text_folder_path="./data/raw/gpt"
 text_file_name_template="large-762M-k40."
 text_file_types=["train","valid","test"]
