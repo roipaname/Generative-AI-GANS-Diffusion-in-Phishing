@@ -112,12 +112,7 @@ class TransformerBlock(nn.Module):
       x=x+shortcut
       return x
 
-torch.manual_seed(123)
-x=torch.randn(2,4,768)
-block=TransformerBlock(GPT_CONFIG_124M)
-output=block(x)
-print("Input Shape:",x.shape)
-print("Output Shape:",output.shape)
+
 
 class GPTModel(nn.Module):
     def __init__(self, cfg):
