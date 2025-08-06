@@ -31,3 +31,5 @@ def text_to_token_ids(text, tokenizer):
 def token_ids_to_text(token_ids, tokenizer):
     flat = token_ids.squeeze(0) # remove batch dimension
     return tokenizer.decode(flat.tolist())
+def format_email(row):
+    return f"SENDER: {row['sender']}\nSUBJECT: {row['subject']}\nBODY: {row['body']}"

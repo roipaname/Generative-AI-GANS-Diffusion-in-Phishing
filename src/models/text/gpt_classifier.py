@@ -133,3 +133,22 @@ class GPTModel(nn.Module):
       x=self.final_norm(x)
       logits=self.out_head(x)
       return logits
+
+
+class GPTForClassification(nn.Module):
+    def __init__(self, gpt_model, hidden_size, num_classes=2):
+        super().__init__()
+        self.gpt = gpt_model
+        self.classifier = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, num_classes)
+        )
+
+    def forward(self, input_ids, attention_mask):
+        outputs = self.gpt(input_ids, attention_mask=attention_mask)
+        # Use the last token's hidden state (standard for GPT)
+        last_token = input_ids.ne(0).sum(dim=1) - 1
+        last_hidden = outputs[0][range(input_ids.size(0)), last_token, :]
+        logits = self.classifier(last_hidden)
+        return logits

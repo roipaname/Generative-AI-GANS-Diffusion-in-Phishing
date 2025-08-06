@@ -58,3 +58,26 @@ def generate_and_print_sample(model, tokenizer, device, start_context):
     decoded_text = token_ids_to_text(token_ids, tokenizer)
     print(decoded_text.replace("\n", " "))  # Compact print format
     model.train()
+
+from torch.utils.data import DataLoader
+import torch.nn.functional as F
+
+train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
+
+model.train()
+optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
+
+for epoch in range(3):
+    for input_ids, attention_mask, labels in train_loader:
+        input_ids = input_ids.to(device)
+        attention_mask = attention_mask.to(device)
+        labels = labels.to(device)
+
+        logits = model(input_ids, attention_mask)
+        loss = F.cross_entropy(logits, labels)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
