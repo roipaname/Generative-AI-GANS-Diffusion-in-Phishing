@@ -43,3 +43,27 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
 
     return dataloader
 
+
+def load_text_only(train_path="large-762M-k40.train.csv",
+                   val_path="large-762M-k40.valid.csv",
+                   test_path="large-762M-k40.test.csv"):
+    """
+    Loads only the 'text' column from each CSV and joins all rows into a single string.
+    """
+    def extract_texts(path):
+        df = pd.read_csv(
+            path,
+            usecols=["text"],
+            engine="python",
+            on_bad_lines='skip',
+            quoting=3
+        )
+        df.dropna(subset=["text"], inplace=True)
+        return df["text"].tolist()
+
+    train_texts = " ".join(extract_texts(train_path))
+    val_texts = " ".join(extract_texts(val_path))
+    test_texts = " ".join(extract_texts(test_path))
+
+    return train_texts, val_texts, test_texts
+
