@@ -1,4 +1,5 @@
 
+import glob
 import torch, torch.nn as nn # type: ignore
 from torch.utils.data import Dataset, DataLoader # type: ignore
 import tiktoken # type: ignore
@@ -168,3 +169,46 @@ def load_text_only(train_path="large-762M-k40.train.csv",
 
     return train_texts, val_texts, test_texts
 
+def load_csv_files(pattern: str) -> List[str]:
+    """Load CSV files matching a pattern"""
+    return glob.glob(pattern)
+
+def create_language_model_dataloaders(csv_files: List[str], batch_size=8, max_length=256, 
+                                    stride=128, train_ratio=0.8):
+    """Create dataloaders for language modeling"""
+    tokenizer = tiktoken.get_encoding("gpt2")
+    
+    # Split files into train/val
+    train_files = csv_files[:int(len(csv_files) * train_ratio)]
+    val_files = csv_files[int(len(csv_files) * train_ratio):]
+    
+    if not val_files:  # If only one file, use part of it for validation
+        val_files = train_files
+    
+    train_dataset = TextDatasetFromCSV(train_files, tokenizer, max_length, stride)
+    val_dataset = TextDatasetFromCSV(val_files, tokenizer, max_length, stride)
+    
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, drop_last=True)
+    
+    return train_loader, val_loader, tokenizer
+
+def create_classification_dataloaders(csv_files: List[str], batch_size=8, max_length=512, 
+                                    train_ratio=0.8):
+    """Create dataloaders for classification"""
+    tokenizer = tiktoken.get_encoding("gpt2")
+    
+    # Split files into train/val
+    train_files = csv_files[:int(len(csv_files) * train_ratio)]
+    val_files = csv_files[int(len(csv_files) * train_ratio):]
+    
+    if not val_files:
+        val_files = train_files
+    
+    train_dataset = EmailClassificationDataset(train_files, tokenizer, max_length)
+    val_dataset = EmailClassificationDataset(val_files, tokenizer, max_length)
+    
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+    
+    return train_loader, val_loader, tokenizer
