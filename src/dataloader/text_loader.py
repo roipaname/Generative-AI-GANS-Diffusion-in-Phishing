@@ -9,6 +9,7 @@ text_file_name_template="large-762M-k40."
 text_file_types=["train","valid","test"]
 
 class GPTDatasetV1(Dataset):
+    """Dataset for GPT language modeling from text data"""
     def __init__(self, txt, tokenizer, max_length, stride):
         self.input_ids = []
         self.target_ids = []
@@ -16,7 +17,7 @@ class GPTDatasetV1(Dataset):
         # Tokenize the entire text
         token_ids = tokenizer.encode(txt, allowed_special={"<|endoftext|>"})
 
-        # Use a sliding window to chunk the book into overlapping sequences of max_length
+        # Use a sliding window to chunk the text into overlapping sequences
         for i in range(0, len(token_ids) - max_length, stride):
             input_chunk = token_ids[i:i + max_length]
             target_chunk = token_ids[i + 1: i + max_length + 1]
@@ -28,16 +29,82 @@ class GPTDatasetV1(Dataset):
 
     def __getitem__(self, idx):
         return self.input_ids[idx], self.target_ids[idx]
-class EmailDataset(Dataset):
-    def __init__(self, encodings, labels):
-        self.encodings = encodings
-        self.labels = labels
+
+class TextDatasetFromCSV(Dataset):
+    """Dataset for GPT language modeling from CSV files with text column"""
+    def __init__(self, csv_files: List[str], tokenizer, max_length=256, stride=128):
+        self.input_ids = []
+        self.target_ids = []
+        
+        # Load and concatenate text from all CSV files
+        all_texts = []
+        for csv_file in csv_files:
+            df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
+            if 'text' in df.columns:
+                texts = df['text'].dropna().tolist()
+                all_texts.extend(texts)
+        
+        # Join all texts with special token separator
+        full_text = "<|endoftext|>".join(all_texts)
+        
+        # Tokenize
+        token_ids = tokenizer.encode(full_text, allowed_special={"<|endoftext|>"})
+        
+        # Create sliding window chunks
+        for i in range(0, len(token_ids) - max_length, stride):
+            input_chunk = token_ids[i:i + max_length]
+            target_chunk = token_ids[i + 1: i + max_length + 1]
+            self.input_ids.append(torch.tensor(input_chunk))
+            self.target_ids.append(torch.tensor(target_chunk))
+
+    def __len__(self):
+        return len(self.input_ids)
+
+    def __getitem__(self, idx):
+        return self.input_ids[idx], self.target_ids[idx]
+    
+
+class EmailClassificationDataset(Dataset):
+    """Dataset for email classification"""
+    def __init__(self, csv_files: List[str], tokenizer, max_length=512):
+        self.texts = []
+        self.labels = []
+        
+        for csv_file in csv_files:
+            df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
+            
+            # Format emails and extract labels
+            formatted_emails = df.apply(format_email, axis=1).tolist()
+            labels = df["label"].astype(int).tolist()
+            
+            self.texts.extend(formatted_emails)
+            self.labels.extend(labels)
+        
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+
     def __len__(self):
         return len(self.labels)
+
     def __getitem__(self, idx):
-        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
-        item["labels"] = torch.tensor(self.labels[idx])
-        return item
+        # Tokenize text
+        tokens = self.tokenizer.encode(self.texts[idx], allowed_special={"<|endoftext|>"})
+        
+        # Truncate or pad
+        if len(tokens) > self.max_length:
+            tokens = tokens[:self.max_length]
+        else:
+            tokens = tokens + [0] * (self.max_length - len(tokens))
+        
+        # Create attention mask
+        attention_mask = [1 if token != 0 else 0 for token in tokens]
+        
+        return (
+            torch.tensor(tokens, dtype=torch.long),
+            torch.tensor(attention_mask, dtype=torch.long),
+            torch.tensor(self.labels[idx], dtype=torch.long)
+        )
+
 
 
 def create_dataloader_v1(txt, batch_size=4, max_length=256,
