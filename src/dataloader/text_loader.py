@@ -4,7 +4,9 @@ import torch, torch.nn as nn # type: ignore
 from torch.utils.data import Dataset, DataLoader # type: ignore
 import tiktoken # type: ignore
 import pandas as pd # type: ignore
-from utils.text_utils import format_email
+from src.utils.text_utils import format_email
+from typing import List
+
 text_folder_path="./data/raw/gpt"
 text_file_name_template="large-762M-k40."
 text_file_types=["train","valid","test"]
@@ -66,23 +68,37 @@ class TextDatasetFromCSV(Dataset):
     
 
 class EmailClassificationDataset(Dataset):
-    """Dataset for email classification"""
+    """Dataset for email classification - handles multiple CSV formats"""
     def __init__(self, csv_files: List[str], tokenizer, max_length=512):
         self.texts = []
         self.labels = []
         
         for csv_file in csv_files:
-            df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
-            
-            # Format emails and extract labels
-            formatted_emails = df.apply(format_email, axis=1).tolist()
-            labels = df["label"].astype(int).tolist()
-            
-            self.texts.extend(formatted_emails)
-            self.labels.extend(labels)
+            try:
+                df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
+                
+                # Check what columns we have and handle accordingly
+                if 'subject' in df.columns and 'body' in df.columns and 'label' in df.columns:
+                    # Handle both simple format (subject,body,label) and full format
+                    formatted_emails = df.apply(format_email, axis=1).tolist()
+                    labels = df["label"].astype(int).tolist()
+                    
+                    self.texts.extend(formatted_emails)
+                    self.labels.extend(labels)
+                else:
+                    print(f"Warning: CSV file {csv_file} doesn't have required columns (subject, body, label)")
+                    continue
+                    
+            except Exception as e:
+                print(f"Error loading {csv_file}: {e}")
+                continue
         
+        if not self.texts:
+            raise ValueError("No valid data found in CSV files")
+            
         self.tokenizer = tokenizer
         self.max_length = max_length
+        print(f"Loaded {len(self.texts)} email samples from {len(csv_files)} files")
 
     def __len__(self):
         return len(self.labels)
@@ -105,7 +121,6 @@ class EmailClassificationDataset(Dataset):
             torch.tensor(attention_mask, dtype=torch.long),
             torch.tensor(self.labels[idx], dtype=torch.long)
         )
-
 
 
 def create_dataloader_v1(txt, batch_size=4, max_length=256,

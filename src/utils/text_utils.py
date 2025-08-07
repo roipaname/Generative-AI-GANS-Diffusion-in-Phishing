@@ -1,35 +1,28 @@
 import torch
 
-def generate_text_simple(model, idx, max_new_tokens, context_size, temperature=1.0, top_k=40):
-    model.eval()
-
+def generate_text_simple(model, idx, max_new_tokens, context_size):
+    """Simple text generation function"""
     for _ in range(max_new_tokens):
-        idx_cond = idx[:, -context_size:]  # (1, context_size)
-
+        idx_cond = idx[-context_size:]
         with torch.no_grad():
-            logits = model(idx_cond)  # (1, context, vocab_size)
-
-        logits = logits[:, -1, :]  # (1, vocab_size)
-        logits = logits / temperature  # apply temperature
-
-        # Top-k filtering
-        if top_k is not None:
-            top_logits, top_indices = torch.topk(logits, top_k)
-            probs = torch.softmax(top_logits, dim=-1)
-            next_token = top_indices.gather(1, torch.multinomial(probs, num_samples=1))
-        else:
-            probs = torch.softmax(logits, dim=-1)
-            next_token = torch.multinomial(probs, num_samples=1)
-
-        idx = torch.cat((idx, next_token), dim=1)
-
+            logits = model(idx_cond.unsqueeze(0))
+        logits = logits[:, -1, :]
+        idx_next = torch.argmax(logits, dim=-1, keepdim=True)
+        idx = torch.cat((idx, idx_next), dim=1)
     return idx
-def text_to_token_ids(text, tokenizer):
-    encoded = tokenizer.encode(text, allowed_special={'<|endoftext|>'})
-    encoded_tensor = torch.tensor(encoded).unsqueeze(0) # add batch dimension
-    return encoded_tensor
-def token_ids_to_text(token_ids, tokenizer):
-    flat = token_ids.squeeze(0) # remove batch dimension
-    return tokenizer.decode(flat.tolist())
 def format_email(row):
-    return f"SENDER: {row['sender']}\nSUBJECT: {row['subject']}\nBODY: {row['body']}"
+    """Format email data into a single text string - handles both formats"""
+    # Check if we have the full email format
+    if 'sender' in row and 'receiver' in row:
+        return f"From: {row['sender']}\nTo: {row['receiver']}\nDate: {row['date']}\nSubject: {row['subject']}\nBody: {row['body']}\nURLs: {row.get('urls', '')}"
+    # Handle simple format with just subject, body, label
+    else:
+        return f"Subject: {row['subject']}\nBody: {row['body']}"
+
+def text_to_token_ids(text: str, tokenizer) -> torch.Tensor:
+    """Convert text to token IDs"""
+    return torch.tensor(tokenizer.encode(text, allowed_special={"<|endoftext|>"}))
+
+def token_ids_to_text(token_ids: torch.Tensor, tokenizer) -> str:
+    """Convert token IDs back to text"""
+    return tokenizer.decode(token_ids.tolist())

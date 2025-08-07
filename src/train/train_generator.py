@@ -1,6 +1,15 @@
-from utils.metrics import calc_loss_batch,calc_loss_loader
-from utils.text_utils import text_to_token_ids,token_ids_to_text,generate_text_simple
+
+
+import sys
+import os
+from src.utils.metrics import calc_loss_batch,calc_loss_loader
+from src.utils.text_utils import text_to_token_ids,token_ids_to_text,generate_text_simple
 import torch
+from typing import List
+
+from src.dataloader.text_loader import load_csv_files,create_classification_dataloaders,create_language_model_dataloaders
+# Adds the root project directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 
 def train_gpt_language_model(model, train_loader, val_loader, optimizer, device, 
@@ -49,7 +58,7 @@ def train_classification_model(model, train_loader, val_loader, optimizer, devic
             labels = labels.to(device)
 
             logits = model(input_ids, attention_mask)
-            loss = F.cross_entropy(logits, labels)
+            loss =torch.nn.functional.cross_entropy(logits, labels)
 
             optimizer.zero_grad()
             loss.backward()
@@ -128,7 +137,7 @@ def train_language_model_from_csvs(csv_pattern: str, model_config: dict, device:
     train_loader, val_loader, tokenizer = create_language_model_dataloaders(csv_files)
     
     # Initialize model
-    from paste import GPTModel  # Import your GPT model
+    from src.models.text.gpt_classifier import GPTModel  # Import your GPT model
     model = GPTModel(model_config).to(device)
     
     # Initialize optimizer
@@ -161,7 +170,7 @@ def train_classification_model_from_csvs(csv_pattern: str, gpt_config: dict, dev
     train_loader, val_loader, tokenizer = create_classification_dataloaders(csv_files)
     
     # Initialize base GPT model
-    from paste import GPTModel, GPTForClassification  # Import your models
+    from src.models.text.gpt_classifier import GPTModel, GPTForClassification  # Import your models
     gpt_model = GPTModel(gpt_config)
     
     # Create classification model
@@ -199,18 +208,24 @@ GPT_CONFIG = {
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     
+    os.makedirs("outputs", exist_ok=True)
+
     # Example 1: Train language model
     print("Training language model...")
-    # model, train_losses, val_losses, tokens_seen = train_language_model_from_csvs(
-    #     csv_pattern="./data/text_data/*.csv",
-    #     model_config=GPT_CONFIG,
-    #     device=device
-    # )
-    
+    lm_model, train_losses, val_losses, tokens_seen = train_language_model_from_csvs(
+        csv_pattern="./data/language/*.csv",
+        model_config=GPT_CONFIG,
+        device=device
+    )
+    torch.save(lm_model.state_dict(), "outputs/language_model.pt")
+    print("Saved language model to outputs/language_model.pt")
+
     # Example 2: Train classification model
     print("Training classification model...")
-    # model, train_losses, val_accuracies = train_classification_model_from_csvs(
-    #     csv_pattern="./data/email_data/*.csv",
-    #     model_config=GPT_CONFIG,
-    #     device=device
-    # )
+    cls_model, train_losses, val_accuracies = train_classification_model_from_csvs(
+        csv_pattern="./data/phishing/*.csv",
+        model_config=GPT_CONFIG,
+        device=device
+    )
+    torch.save(cls_model.state_dict(), "outputs/classification_model.pt")
+    print("Saved classification model to outputs/classification_model.pt")
