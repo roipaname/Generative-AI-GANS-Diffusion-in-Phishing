@@ -25,4 +25,5 @@ def text_to_token_ids(text: str, tokenizer) -> torch.Tensor:
 
 def token_ids_to_text(token_ids: torch.Tensor, tokenizer) -> str:
     """Convert token IDs back to text"""
-    return tokenizer.decode(token_ids.tolist())
+    # Flatten the tensor before converting to a list
+    return tokenizer.decode(token_ids.flatten().tolist())
