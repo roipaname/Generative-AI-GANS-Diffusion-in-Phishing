@@ -7,3 +7,4 @@ GPT_CONFIG={
     "drop_rate": 0.1,
     "qkv_bias": False
 }
+#trying hard
