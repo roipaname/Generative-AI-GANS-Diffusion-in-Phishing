@@ -2,21 +2,14 @@ from src.models.text.gpt_classifier import  GPTForClassification,GPTModel
 import torch,torch.nn as nn
 from torch.utils.data import Dataset,DataLoader
 import tiktoken
+from config.constant import GPT_CONFIG
 from src.dataloader.text_loader import EmailClassificationDataset
 MODEL_PATH = "outputs/classification_model.pt"
 CSV_PATH = ["data/phishing/nazario.csv"]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 tokenizer = tiktoken.get_encoding("gpt2")
-cfg = {
-    "vocab_size": 50257,
-    "context_length": 512,
-    "emb_dim": 768,
-    "n_heads": 12,
-    "n_layers": 12,
-    "drop_rate": 0.1,
-    "qkv_bias": False
-}
+cfg = GPT_CONFIG
 gpt_model = GPTModel(cfg)
 model = GPTForClassification(gpt_model, hidden_size=cfg['emb_dim'], num_classes=2)
 state_dict = torch.load(MODEL_PATH, map_location=device)

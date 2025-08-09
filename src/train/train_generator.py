@@ -6,7 +6,7 @@ from src.utils.metrics import calc_loss_batch,calc_loss_loader
 from src.utils.text_utils import text_to_token_ids,token_ids_to_text,generate_text_simple
 import torch
 from typing import List
-
+from config.constant import GPT_CONFIG
 from src.dataloader.text_loader import load_csv_files,create_classification_dataloaders,create_language_model_dataloaders
 # Adds the root project directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
@@ -195,15 +195,7 @@ def train_classification_model_from_csvs(csv_pattern: str, gpt_config: dict, dev
     
     return model, train_losses, val_accuracies
 
-GPT_CONFIG = {
-    "vocab_size": 50257,
-    "context_length": 256,
-    "emb_dim": 768,
-    "n_heads": 12,
-    "n_layers": 12,
-    "drop_rate": 0.1,
-    "qkv_bias": False
-}
+
 
 if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
