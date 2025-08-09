@@ -117,22 +117,29 @@ class TransformerBlock(nn.Module):
 class GPTModel(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.tok_emb=nn.Embedding(cfg['vocab_size'], cfg['emb_dim'])
-        self.pos_emb=nn.Embedding(cfg['context_length'],cfg['emb_dim'])
-        self.blocks=nn.Sequential(*[TransformerBlock(cfg) for _ in range(cfg['n_layers'])])
-        self.drop_emb=nn.Dropout(cfg['drop_rate'])
-        self.final_norm=LayerNorm(cfg['emb_dim'])
-        self.out_head=nn.Linear(cfg['emb_dim'], cfg['vocab_size'],bias=False)
-    def forward(self,in_idx):
-      batch_size,seq_len=in_idx.shape
-      tok_emb=self.tok_emb(in_idx)
-      pos_emb=self.pos_emb(torch.arange(seq_len,device=in_idx.device))
-      x=tok_emb+pos_emb
-      x=self.drop_emb(x)
-      x=self.blocks(x)
-      x=self.final_norm(x)
-      logits=self.out_head(x)
-      return logits
+        self.tok_emb = nn.Embedding(cfg['vocab_size'], cfg['emb_dim'])
+        self.pos_emb = nn.Embedding(cfg['context_length'], cfg['emb_dim'])
+        self.blocks = nn.Sequential(*[TransformerBlock(cfg) for _ in range(cfg['n_layers'])])
+        self.drop_emb = nn.Dropout(cfg['drop_rate'])
+        self.final_norm = LayerNorm(cfg['emb_dim'])
+        self.out_head = nn.Linear(cfg['emb_dim'], cfg['vocab_size'], bias=False)
+
+    def forward(self, in_idx, return_hidden=False):
+        batch_size, seq_len = in_idx.shape
+        tok_emb = self.tok_emb(in_idx)
+        pos_emb = self.pos_emb(torch.arange(seq_len, device=in_idx.device))
+        x = tok_emb + pos_emb
+        x = self.drop_emb(x)
+        x = self.blocks(x)
+        x = self.final_norm(x)
+
+        if return_hidden:
+            return x  # shape: (batch, seq_len, emb_dim)
+
+        logits = self.out_head(x)
+        return logits
+
+
 
 
 class GPTForClassification(nn.Module):
@@ -145,10 +152,29 @@ class GPTForClassification(nn.Module):
             nn.Linear(hidden_size, num_classes)
         )
 
-    def forward(self, input_ids, attention_mask):
-        outputs = self.gpt(input_ids, attention_mask=attention_mask)
-        # Use the last token's hidden state (standard for GPT)
-        last_token = input_ids.ne(0).sum(dim=1) - 1
-        last_hidden = outputs[0][range(input_ids.size(0)), last_token, :]
+    def forward(self, input_ids, attention_mask=None):
+        # Get hidden states from GPT
+        hidden_states = self.gpt(input_ids, return_hidden=True)
+
+        # Find the last non-padding token for each sequence
+        # Use attention_mask if available, otherwise find last non-zero token
+        if attention_mask is not None:
+            # Get the position of the last token with attention_mask = 1
+            last_token_indices = attention_mask.sum(dim=1) - 1
+        else:
+            # Fallback: find last non-zero token (assuming 0 is padding)
+            # Clamp to ensure we don't get negative indices
+            last_token_indices = (input_ids != 0).sum(dim=1) - 1
+            last_token_indices = torch.clamp(last_token_indices, min=0)
+
+        # Ensure indices are within bounds
+        batch_size, seq_len = input_ids.shape
+        last_token_indices = torch.clamp(last_token_indices, max=seq_len-1)
+
+        # Extract the last token's hidden state for each sequence
+        batch_indices = torch.arange(batch_size, device=input_ids.device)
+        last_hidden = hidden_states[batch_indices, last_token_indices, :]
+
+        # Pass through classifier
         logits = self.classifier(last_hidden)
         return logits

@@ -67,38 +67,69 @@ class TextDatasetFromCSV(Dataset):
         return self.input_ids[idx], self.target_ids[idx]
     
 
+def safe_int(val):
+    try:
+        return int(val)
+    except:
+        return None
+
+def load_and_filter_csv(csv_file):
+    df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
+
+    # Check for required columns
+    if not {'subject', 'body', 'label'}.issubset(df.columns):
+        print(f"Warning: {csv_file} missing required columns")
+        return None, None
+
+    # Drop rows with missing label
+    df = df.dropna(subset=['label'])
+
+    # Convert label to int safely
+    df['label'] = df['label'].apply(safe_int)
+
+    # Drop rows where label conversion failed (None)
+    df = df.dropna(subset=['label'])
+
+    # Keep only rows where label is 0 or 1
+    df = df[df['label'].isin([0, 1])]
+
+    # Optionally, drop rows with missing subject or body
+    df = df.dropna(subset=['subject', 'body'])
+
+    # Format emails for text input (assumes you have a function format_email)
+    texts = df.apply(format_email, axis=1).tolist()
+
+    labels = df['label'].astype(int).tolist()
+
+    print(f"Loaded {len(texts)} valid samples from {csv_file} (only labels 0/1 kept)")
+
+    return texts, labels
+
+
+
 class EmailClassificationDataset(Dataset):
     """Dataset for email classification - handles multiple CSV formats"""
     def __init__(self, csv_files: List[str], tokenizer, max_length=512):
         self.texts = []
         self.labels = []
-        
+
         for csv_file in csv_files:
-            try:
-                df = pd.read_csv(csv_file, engine="python", on_bad_lines='skip', quoting=3)
-                
-                # Check what columns we have and handle accordingly
-                if 'subject' in df.columns and 'body' in df.columns and 'label' in df.columns:
-                    # Handle both simple format (subject,body,label) and full format
-                    formatted_emails = df.apply(format_email, axis=1).tolist()
-                    labels = df["label"].astype(int).tolist()
-                    
-                    self.texts.extend(formatted_emails)
-                    self.labels.extend(labels)
-                else:
-                    print(f"Warning: CSV file {csv_file} doesn't have required columns (subject, body, label)")
-                    continue
-                    
-            except Exception as e:
-                print(f"Error loading {csv_file}: {e}")
-                continue
-        
+           try:
+             texts, labels = load_and_filter_csv(csv_file)
+             if texts is None or labels is None:
+              continue
+             self.texts.extend(texts)
+             self.labels.extend(labels)
+           except Exception as e:
+             print(f"Error processing {csv_file}: {e}")
+             continue
+
         if not self.texts:
             raise ValueError("No valid data found in CSV files")
-            
+
         self.tokenizer = tokenizer
         self.max_length = max_length
-        print(f"Loaded {len(self.texts)} email samples from {len(csv_files)} files")
+        print(f"Loaded {len(self.texts)} email samples from {len(csv_files)} files (only labels 0/1 kept)")
 
     def __len__(self):
         return len(self.labels)
@@ -106,20 +137,21 @@ class EmailClassificationDataset(Dataset):
     def __getitem__(self, idx):
         # Tokenize text
         tokens = self.tokenizer.encode(self.texts[idx], allowed_special={"<|endoftext|>"})
-        
+
         # Truncate or pad
         if len(tokens) > self.max_length:
             tokens = tokens[:self.max_length]
         else:
             tokens = tokens + [0] * (self.max_length - len(tokens))
-        
+
         # Create attention mask
         attention_mask = [1 if token != 0 else 0 for token in tokens]
-        
+
         return (
             torch.tensor(tokens, dtype=torch.long),
             torch.tensor(attention_mask, dtype=torch.long),
-            torch.tensor(self.labels[idx], dtype=torch.long)
+            torch.tensor(self.labels[idx], dtype=torch.long),
+            self.texts[idx]
         )
 
 
