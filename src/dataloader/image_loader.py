@@ -1,5 +1,4 @@
 import os
-import tensorflow as tf
 import cv2
 import imghdr
 import numpy as np
