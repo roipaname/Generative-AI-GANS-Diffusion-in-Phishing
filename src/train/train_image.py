@@ -9,7 +9,9 @@ from sklearn.utils import class_weight
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 import numpy as np
+from config.constant import output_dir
 from sklearn.metrics import classification_report, confusion_matrix, precision_score, recall_score, f1_score
+
 data_dir="data/phishingimage"
 X,y,class_label=load_and_preprocess_data(data_dir)
 
@@ -128,3 +130,12 @@ f1 = f1_score(y_true_classes, y_pred_classes, average='weighted')
 print(f"Test Precision: {precision}")
 print(f"Test Recall: {recall}")
 print(f"Test F1-Score: {f1}")
+import os
+
+os.makedirs(output_dir, exist_ok=True)
+
+# Save the entire model (architecture + weights + training config)
+model_path = os.path.join(output_dir, 'cnn_model.h5')
+model.save(model_path)
+
+print(f"Model saved to {model_path}")
