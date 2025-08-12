@@ -8,3 +8,5 @@ GPT_CONFIG={
     "qkv_bias": False
 }
 output_dir = 'outputs'
+
+image_ext=['jpeg','png','jpg','bmg']

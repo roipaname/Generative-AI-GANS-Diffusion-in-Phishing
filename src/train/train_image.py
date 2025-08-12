@@ -9,6 +9,9 @@ from sklearn.utils import class_weight
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 import numpy as np
+
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
+
 from config.constant import output_dir
 from sklearn.metrics import classification_report, confusion_matrix, precision_score, recall_score, f1_score
 
@@ -31,49 +34,22 @@ def create_cnn_model(input_shape, num_classes):
     Returns:
         tf.keras.models.Sequential: The compiled CNN model.
     """
-    model = models.Sequential()
-
-    # Convolutional block 1
-    model.add(layers.Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=input_shape))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Convolutional block 2
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Convolutional block 3
-    model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Convolutional block 4
-    model.add(layers.Conv2D(256, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Convolutional block 5
-    model.add(layers.Conv2D(512, (3, 3), activation='relu', padding='same'))
-    model.add(layers.MaxPooling2D((2, 2)))
-
-    # Convolutional block 6
-    model.add(layers.Conv2D(512, (3, 3), activation='relu', padding='same'))
-
-    # Convolutional block 7
-    model.add(layers.Conv2D(256, (3, 3), activation='relu', padding='same'))
-
-    # Convolutional block 8
-    model.add(layers.Conv2D(128, (3, 3), activation='relu', padding='same'))
-
-    # Convolutional block 9
-    model.add(layers.Conv2D(64, (3, 3), activation='relu', padding='same'))
-
-    # Convolutional block 10
-    model.add(layers.Conv2D(32, (3, 3), activation='relu', padding='same'))
-
-    # Flatten the output from the convolutional layers
-    model.add(layers.Flatten())
-    # Fully connected layer 1
-    model.add(layers.Dense(512, activation='relu'))
-    # Output layer
-    model.add(layers.Dense(num_classes, activation='softmax'))
+    model = models.Sequential([
+    layers.Conv2D(32, (3,3), activation='relu', padding='same', input_shape=input_shape),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2,2),
+    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2,2),
+    layers.Conv2D(128, (3,3), activation='relu', padding='same'),
+    layers.BatchNormalization(),
+    layers.MaxPooling2D(2,2),
+    layers.GlobalAveragePooling2D(),
+    layers.Dense(256, activation='relu'),
+    layers.Dropout(0.5),
+    layers.Dense(num_classes, activation='softmax')
+    ])
+ 
     
     return model
 input_shape = X_train.shape[1:]
@@ -98,10 +74,19 @@ class_weights = class_weight.compute_class_weight('balanced', classes=np.unique(
 # Convert class weights to a dictionary for use during training
 class_weight_dict = dict(enumerate(class_weights))
 
-history = model.fit(datagen.flow(X_train, y_train, batch_size=32),
-                    epochs=40,
-                    validation_data=(X_val, y_val),
-                    class_weight=class_weight_dict)
+callbacks = [
+    EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True),
+    ModelCheckpoint('best_cnn_model.keras', save_best_only=True),
+    ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5)
+]
+
+history = model.fit(
+    datagen.flow(X_train, y_train, batch_size=32),
+    epochs=200,
+    validation_data=(X_val, y_val),
+    class_weight=class_weight_dict,
+    callbacks=callbacks
+)
 
 loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
 print(f"Test Loss: {loss}")

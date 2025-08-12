@@ -2,14 +2,20 @@ import torch
 
 def generate_text_simple(model, idx, max_new_tokens, context_size):
     """Simple text generation function"""
+    # Ensure idx has batch dimension
+    if idx.dim() == 1:
+        idx = idx.unsqueeze(0)  # shape: (1, seq_len)
+
     for _ in range(max_new_tokens):
-        idx_cond = idx[-context_size:]
+        idx_cond = idx[:, -context_size:]  # slice last context_size tokens on dim=1
         with torch.no_grad():
-            logits = model(idx_cond.unsqueeze(0))
-        logits = logits[:, -1, :]
-        idx_next = torch.argmax(logits, dim=-1, keepdim=True)
-        idx = torch.cat((idx, idx_next), dim=1)
+            logits = model(idx_cond)  # input shape: (batch=1, seq_len=context_size)
+        logits = logits[:, -1, :]  # logits for last token: shape (1, vocab_size)
+        idx_next = torch.argmax(logits, dim=-1, keepdim=True)  # shape (1, 1)
+        idx = torch.cat((idx, idx_next), dim=1)  # concat on sequence length dim=1
+
     return idx
+
 def format_email(row):
     """Format email data into a single text string - handles both formats"""
     # Check if we have the full email format

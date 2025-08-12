@@ -3,7 +3,7 @@ import cv2
 import imghdr
 import numpy as np
 
-image_ext=['jpeg','png','jpg','bmg']
+from config.constant import image_ext
 def load_and_preprocess_data(data_dir):
     """
     Loads images from the specified directory, preprocesses them, and creates labels.
