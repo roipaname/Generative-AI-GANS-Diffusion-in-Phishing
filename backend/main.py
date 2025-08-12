@@ -2,6 +2,7 @@ import io
 import os
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+from diffusers import StableDiffusionPipeline
 from PIL import Image
 import numpy as np
 import torch
@@ -9,6 +10,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from config.constant import GPT_CONFIG
 from src.models.text.gpt_classifier import GPTModel,GPTForClassification
+import time
 # Import your custom tokenizer and generation utilities from your project
 from src.utils.text_utils import text_to_token_ids, token_ids_to_text, generate_text_simple
 import tiktoken
@@ -104,8 +106,34 @@ def classify_text_and_image(text: str, file: UploadFile):
 
 # Stub for diffusion image generation (work in progress)
 def generate_image_diffusion(prompt: str) -> str:
-    # TODO: integrate your diffusion model here
-    return "generated_image_placeholder.png"
+    # Ensure output directory exists
+    output_dir = "./outputs/generated_images"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Generate image using loaded pipeline
+    with torch.no_grad():
+        result = pipe(prompt, guidance_scale=9,num_inference_steps=70,width=768,height=768)
+    image = result.images[0]
+
+    # Create a unique filename with timestamp
+    timestamp = int(time.time())
+    safe_prompt = "".join(c if c.isalnum() or c in (' ', '-', '_') else '_' for c in prompt)[:50]
+    filename = f"{safe_prompt.replace(' ', '_')}_{timestamp}.png"
+    filepath = os.path.join(output_dir, filename)
+
+    # Save image file
+    image.save(filepath)
+
+    # Return the relative path or URL to the saved image
+    # You can adjust this depending on how your server serves static files
+    return filepath
+@app.on_event("startup")
+def load_model():
+    global pipe
+    pipe = StableDiffusionPipeline.from_pretrained(
+        "./outputs/stable-diffusion-v1-5",
+        torch_dtype=torch.float32
+    ).to("cpu")
 
 # === API Endpoints ===
 

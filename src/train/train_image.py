@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-
+from src.models.image.cnn_classifier import create_cnn_model
 from config.constant import output_dir
 from sklearn.metrics import classification_report, confusion_matrix, precision_score, recall_score, f1_score
 
@@ -23,35 +23,7 @@ print(y)
 X_train,X_temp,y_train,y_temp=train_test_split(X,y,random_state=42,test_size=0.3,stratify=y)
 X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42, stratify=y_temp)
 
-def create_cnn_model(input_shape, num_classes):
-    """
-    Defines the convolutional neural network (CNN) model architecture.
 
-    Args:
-        input_shape (tuple): Shape of the input images (height, width, channels).
-        num_classes (int): Number of output classes.
-
-    Returns:
-        tf.keras.models.Sequential: The compiled CNN model.
-    """
-    model = models.Sequential([
-    layers.Conv2D(32, (3,3), activation='relu', padding='same', input_shape=input_shape),
-    layers.BatchNormalization(),
-    layers.MaxPooling2D(2,2),
-    layers.Conv2D(64, (3,3), activation='relu', padding='same'),
-    layers.BatchNormalization(),
-    layers.MaxPooling2D(2,2),
-    layers.Conv2D(128, (3,3), activation='relu', padding='same'),
-    layers.BatchNormalization(),
-    layers.MaxPooling2D(2,2),
-    layers.GlobalAveragePooling2D(),
-    layers.Dense(256, activation='relu'),
-    layers.Dropout(0.5),
-    layers.Dense(num_classes, activation='softmax')
-    ])
- 
-    
-    return model
 input_shape = X_train.shape[1:]
 num_classes=len(class_label)
 model=create_cnn_model(input_shape,num_classes)
