@@ -39,7 +39,7 @@ print("Loading GPT language model...")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 gpt_language_model = GPTModel(GPT_CONFIG).to(device)
-gpt_language_model.load_state_dict(torch.load("./outputs/model_latest.pt", map_location=device))
+gpt_language_model.load_state_dict(torch.load("./outputs/model_latest (1).pt", map_location=device))
 gpt_language_model.eval()
 print("GPT language model loaded.")
 
