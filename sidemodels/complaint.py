@@ -1,7 +1,7 @@
 # =========================
 # 1. SETUP FOR COLAB + GPU
 # =========================
-!pip install tiktoken joblib
+#!pip install tiktoken joblib
 
 import torch, torch.nn as nn
 import torch.nn.functional as F
