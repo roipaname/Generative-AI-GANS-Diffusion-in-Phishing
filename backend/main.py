@@ -8,7 +8,7 @@ import numpy as np
 import torch
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from config.constant import GPT_CONFIG
+from src.config.constant import GPT_CONFIG
 from src.models.text.gpt_classifier import GPTModel,GPTForClassification
 import time
 # Import your custom tokenizer and generation utilities from your project
