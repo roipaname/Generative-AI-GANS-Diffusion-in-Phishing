@@ -8,12 +8,17 @@ import numpy as np
 import torch
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from src.config.constant import GPT_CONFIG
+from config.constant import GPT_CONFIG
+
+
 from src.models.text.gpt_classifier import GPTModel,GPTForClassification
 import time
 # Import your custom tokenizer and generation utilities from your project
 from src.utils.text_utils import text_to_token_ids, token_ids_to_text, generate_text_simple
 import tiktoken
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+
 
 # Load tiktoken encoding for your GPT model (assuming GPT-2 compatible)
 tokenizer = tiktoken.get_encoding("gpt2")
