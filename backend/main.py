@@ -13,7 +13,7 @@ from config.constant import GPT_CONFIG
 
 from src.models.text.gpt_classifier import GPTModel,GPTForClassification
 import time
-# Import your custom tokenizer and generation utilities from your project
+
 from src.utils.text_utils import text_to_token_ids, token_ids_to_text, generate_text_simple
 import tiktoken
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -74,14 +74,14 @@ def classify_image(file: UploadFile):
 def generate_text(prompt: str, max_new_tokens=50):
     gpt_language_model.eval()
     with torch.no_grad():
-        encoded = text_to_token_ids(prompt, tokenizer).to(device)  # Pass tokenizer if needed
+        encoded = text_to_token_ids(prompt, tokenizer).to(device)  
         token_ids = generate_text_simple(
             model=gpt_language_model,
             idx=encoded,
             max_new_tokens=max_new_tokens,
             context_size=GPT_CONFIG['context_length']
         )
-        decoded_text = token_ids_to_text(token_ids, tokenizer)  # Pass tokenizer if needed
+        decoded_text = token_ids_to_text(token_ids, tokenizer) 
     return decoded_text
 
 def classify_text(text: str):
