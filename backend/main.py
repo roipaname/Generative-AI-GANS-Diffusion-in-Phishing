@@ -1,5 +1,5 @@
 import io
-import os
+import os,sys
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from diffusers import StableDiffusionPipeline
