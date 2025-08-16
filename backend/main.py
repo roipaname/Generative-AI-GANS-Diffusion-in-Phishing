@@ -91,30 +91,12 @@ def generate_text(prompt: str, max_new_tokens=50):
         )
         decoded_text = token_ids_to_text(token_ids, tokenizer) 
     return decoded_text
-def generate_code(prompt, max_new_tokens=256):
+def generate_code(prompt,max_new_tokens=10000):
     code_model.eval()
     with torch.no_grad():
-        # truncate long prompts so they fit into the 2048 context window
-        inputs = tokenizer_code(
-            prompt,
-            return_tensors="pt",
-            truncation=True,
-            max_length=1024
-        ).to(device)
-
-        # make sure we don't exceed the model’s max position embeddings (2048)
-        max_input_len = inputs["input_ids"].shape[1]
-        safe_new_tokens = min(max_new_tokens, 2048 - max_input_len)
-
-        # generate without conflicting args
-        output = code_model.generate(
-            **inputs,
-            max_new_tokens=safe_new_tokens,
-            pad_token_id=tokenizer_code.eos_token_id
-        )
-
+        inputs = tokenizer_code(prompt, return_tensors="pt").to(device)
+        output = code_model.generate(**inputs, max_length=256,max_new_tokens=max_new_tokens)
     return tokenizer_code.decode(output[0], skip_special_tokens=True)
-
 
 
 
