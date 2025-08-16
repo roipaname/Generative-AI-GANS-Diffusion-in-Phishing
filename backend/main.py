@@ -5,9 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from diffusers import StableDiffusionPipeline
 from PIL import Image
 import numpy as np
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from config.constant import GPT_CONFIG
 
 
@@ -19,6 +21,7 @@ import tiktoken
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
+code_gen_modelpath="./outputs/checkpoint-8394"
 
 # Load tiktoken encoding for your GPT model (assuming GPT-2 compatible)
 tokenizer = tiktoken.get_encoding("gpt2")
@@ -166,3 +169,10 @@ async def api_classify_text_image(text: str = Form(...), file: UploadFile = File
 async def api_generate_image(prompt: str = Form(...)):
     image_path = generate_image_diffusion(prompt)
     return {"image_url": image_path}
+@app.post("/generate-python-code")
+async def api_generate_code(prompt: str = Form(...)):
+    generated=generate_code(prompt)
+    print(generated)
+    return {"generated_code": generated}
+
+
