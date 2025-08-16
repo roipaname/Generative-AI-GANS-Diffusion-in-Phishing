@@ -18,7 +18,6 @@ import time
 
 from src.utils.text_utils import text_to_token_ids, token_ids_to_text, generate_text_simple
 import tiktoken
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 code_gen_modelpath="./outputs/checkpoint-8394"
@@ -57,6 +56,12 @@ gpt_classifier_model = GPTForClassification(base_gpt, hidden_size=GPT_CONFIG['em
 gpt_classifier_model.load_state_dict(torch.load("./outputs/classification_model.pt", map_location=device))
 gpt_classifier_model.eval()
 print("GPT classifier model loaded.")
+print("Loading Code generator model...")
+tokenizer_code=AutoTokenizer.from_pretrained(code_gen_modelpath)
+code_model = AutoModelForCausalLM.from_pretrained(code_gen_modelpath).to(device)
+print("Code Generator model loaded.")
+
+
 
 # === Helper functions ===
 
@@ -86,6 +91,14 @@ def generate_text(prompt: str, max_new_tokens=50):
         )
         decoded_text = token_ids_to_text(token_ids, tokenizer) 
     return decoded_text
+def generate_code(prompt,max_new_tokens=3000):
+    code_model.eval()
+    with torch.no_grad():
+        inputs = tokenizer_code(prompt, return_tensors="pt").to(device)
+        output = code_model.generate(**inputs, max_length=256,max_new_tokens=max_new_tokens)
+    return tokenizer_code.decode(output[0], skip_special_tokens=True)
+
+
 
 def classify_text(text: str):
     gpt_classifier_model.eval()

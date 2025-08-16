@@ -125,6 +125,7 @@ st.markdown("""
         backdrop-filter: blur(10px);
         transition: all 0.3s ease;
         font-family: 'Inter', sans-serif;
+            color:black;
     }
     
     .stTextArea textarea:focus,
@@ -274,7 +275,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==== TABS ====
-tab1, tab2, tab3, tab4 = st.tabs(["📝 Text Analysis", "🖼️ Image Analysis", "🔍 Combined Analysis", "✨ AI Generator"])
+tab1, tab2, tab3, tab4,tab5 = st.tabs(["📝 Text Analysis", "🖼️ Image Analysis", "🔍 Combined Analysis", "✨ AI Image Generator","✨ AI Code Generator"])
 
 # ==== TEXT CLASSIFICATION ====
 with tab1:
@@ -533,6 +534,45 @@ with tab4:
                 st.warning("🎨 Please enter a prompt for image generation.")
     
     st.markdown("</div>", unsafe_allow_html=True)
+with tab5:
+    st.markdown("<div class='modern-card'>", unsafe_allow_html=True)
+    st.markdown("### ✨ AI Code Generator")
+    st.markdown("Generate Python code snippets using an advanced AI model.")
+
+    prompt = st.text_area(
+        "Enter your Python code generation prompt:",
+        height=120,
+        placeholder="Describe the code you want to generate..."
+    )
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        generate_code_btn = st.button("✨ Generate Code", key="gen_code_btn")
+
+    if generate_code_btn:
+        if prompt.strip():
+            with st.spinner("Generating Python code..."):
+                try:
+                    resp = requests.post(f"{API_BASE}/generate-python-code", data={"prompt": prompt})
+                    if resp.ok:
+                        result = resp.json()
+                        st.markdown("#### 📄 Generated Python Code")
+                        st.text_area(
+                            "Generated Code:",
+                            result.get("generated_code", ""),
+                            height=250,
+                            key="generated_code_output"
+                        )
+                    else:
+                        st.error("🚨 Error generating Python code. Please try again.")
+                except Exception as e:
+                    st.error("🚨 Network error. Please try again.")
+        else:
+            st.warning("📝 Please enter a prompt for Python code generation.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
 
 # ==== FOOTER ====
 st.markdown("""
