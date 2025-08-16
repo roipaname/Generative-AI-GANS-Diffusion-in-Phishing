@@ -46,7 +46,7 @@ print("Loading GPT language model...")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 gpt_language_model = GPTModel(GPT_CONFIG).to(device)
-gpt_language_model.load_state_dict(torch.load("./outputs/model_latest (1).pt", map_location=device))
+gpt_language_model.load_state_dict(torch.load("./outputs/gpt_model_latest.pt", map_location=device))
 gpt_language_model.eval()
 print("GPT language model loaded.")
 
@@ -91,7 +91,7 @@ def generate_text(prompt: str, max_new_tokens=50):
         )
         decoded_text = token_ids_to_text(token_ids, tokenizer) 
     return decoded_text
-def generate_code(prompt,max_new_tokens=3000):
+def generate_code(prompt,max_new_tokens=10000):
     code_model.eval()
     with torch.no_grad():
         inputs = tokenizer_code(prompt, return_tensors="pt").to(device)
