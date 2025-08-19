@@ -105,7 +105,7 @@ def classify_text(text: str):
     with torch.no_grad():
         encoded = text_to_token_ids(text, tokenizer).to(device)
         if encoded.dim() == 1:  # ensure batch dimension
-            encoded = encoded.unsqueeze(0)
+            encoded = encoded.unsqueeze(1)
         logits = gpt_classifier_model(encoded)
         probs = torch.softmax(logits, dim=-1)
         confidence, pred_class = torch.max(probs, dim=-1)
