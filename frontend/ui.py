@@ -2,7 +2,8 @@
 import streamlit as st
 import requests
 from PIL import Image
-import iogh
+import io
+import os
 # ==== CONFIG ====
 API_BASE = "http://localhost:8000"  # change to your FastAPI base URL
 
