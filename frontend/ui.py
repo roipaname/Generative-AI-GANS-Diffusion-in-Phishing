@@ -4,6 +4,7 @@ import requests
 from PIL import Image
 import io
 import os
+
 # ==== CONFIG ====
 API_BASE = "http://localhost:8000"  # change to your FastAPI base URL
 
@@ -13,15 +14,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ==== MODERN CSS STYLING ====
+# ==== MODERN NEUROMORPHIC CSS STYLING ====
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
     
     /* Global Styles */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        min-height: 100vh;
     }
     
     /* Hide Streamlit elements */
@@ -32,108 +34,188 @@ st.markdown("""
     
     /* Main container */
     .block-container {
-        max-width: 900px;
-        padding: 1rem 2rem 3rem;
+        max-width: 1000px;
+        padding: 2rem 3rem 4rem;
         background: transparent;
     }
     
     /* Header styling */
     .main-header {
         text-align: center;
-        margin-bottom: 3rem;
-        padding: 2rem 0;
+        margin-bottom: 4rem;
+        padding: 3rem 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+        border-radius: 30px;
+        box-shadow: 
+            20px 20px 40px rgba(0,0,0,0.1),
+            -20px -20px 40px rgba(255,255,255,0.9),
+            inset 5px 5px 10px rgba(0,0,0,0.05),
+            inset -5px -5px 10px rgba(255,255,255,0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.3);
     }
     
     .main-title {
-        font-size: 3.5rem;
-        font-weight: 700;
-        color: white;
+        font-size: 4rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin: 0;
-        text-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
+        text-shadow: none;
     }
     
     .main-subtitle {
-        font-size: 1.2rem;
-        color: rgba(255,255,255,0.8);
-        margin-top: 0.5rem;
-        font-weight: 300;
+        font-size: 1.3rem;
+        color: #64748b;
+        margin-top: 1rem;
+        font-weight: 400;
+        letter-spacing: 0.5px;
     }
     
     /* Tab styling */
     .stTabs {
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        padding: 0.5rem;
-        border: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
+        backdrop-filter: blur(30px);
+        border-radius: 25px;
+        padding: 1rem;
+        border: 1px solid rgba(255,255,255,0.4);
+        box-shadow: 
+            15px 15px 30px rgba(0,0,0,0.1),
+            -15px -15px 30px rgba(255,255,255,0.9),
+            inset 2px 2px 5px rgba(0,0,0,0.03),
+            inset -2px -2px 5px rgba(255,255,255,0.7);
+        margin-bottom: 2rem;
     }
     
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
+        gap: 1rem;
         background: transparent;
+        justify-content: center;
     }
     
     .stTabs [data-baseweb="tab"] {
-        background: transparent;
+        background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.5) 100%);
         border: none;
-        color: rgba(255,255,255,0.7);
-        font-weight: 500;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
+        color: #475569;
+        font-weight: 600;
+        padding: 1.2rem 2rem;
+        border-radius: 18px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 1rem;
+        box-shadow: 
+            8px 8px 16px rgba(0,0,0,0.08),
+            -8px -8px 16px rgba(255,255,255,0.9),
+            inset 1px 1px 2px rgba(0,0,0,0.02),
+            inset -1px -1px 2px rgba(255,255,255,0.6);
+        border: 1px solid rgba(255,255,255,0.3);
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(255,255,255,0.1);
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 
+            12px 12px 24px rgba(0,0,0,0.12),
+            -12px -12px 24px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(0,0,0,0.03),
+            inset -2px -2px 4px rgba(255,255,255,0.7);
+        color: #334155;
     }
     
     .stTabs [aria-selected="true"] {
-        background: rgba(255,255,255,0.15) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
         color: white !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 
+            10px 10px 20px rgba(102,126,234,0.2),
+            -10px -10px 20px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(255,255,255,0.2),
+            inset -2px -2px 4px rgba(0,0,0,0.1) !important;
+        transform: translateY(-1px);
     }
     
     /* Card styling */
     .modern-card {
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 24px;
-        padding: 2.5rem;
-        margin: 1.5rem 0;
-        border: 1px solid rgba(255,255,255,0.2);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+        backdrop-filter: blur(30px);
+        border-radius: 32px;
+        padding: 3rem;
+        margin: 2rem 0;
+        border: 1px solid rgba(255,255,255,0.4);
+        box-shadow: 
+            25px 25px 50px rgba(0,0,0,0.08),
+            -25px -25px 50px rgba(255,255,255,0.9),
+            inset 3px 3px 6px rgba(0,0,0,0.02),
+            inset -3px -3px 6px rgba(255,255,255,0.8);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .modern-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        border-radius: 32px 32px 0 0;
     }
     
     .modern-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 25px 80px rgba(0,0,0,0.15);
+        transform: translateY(-4px);
+        box-shadow: 
+            30px 30px 60px rgba(0,0,0,0.12),
+            -30px -30px 60px rgba(255,255,255,0.9),
+            inset 4px 4px 8px rgba(0,0,0,0.03),
+            inset -4px -4px 8px rgba(255,255,255,0.8);
+    }
+    
+    /* Section headers */
+    .modern-card h3 {
+        color: #1e293b;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .modern-card p {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
     }
     
     /* Input styling */
     .stTextArea textarea,
     .stTextInput input {
-        border: 2px solid rgba(102,126,234,0.2);
-        border-radius: 16px;
-        padding: 1rem 1.25rem;
+        border: 2px solid rgba(255,255,255,0.6);
+        border-radius: 20px;
+        padding: 1.2rem 1.5rem;
         font-size: 1rem;
-        background: rgba(255,255,255,0.8);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+        backdrop-filter: blur(20px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         font-family: 'Inter', sans-serif;
-            color:black;
+        color: #334155 !important;
+        box-shadow: 
+            inset 8px 8px 16px rgba(0,0,0,0.05),
+            inset -8px -8px 16px rgba(255,255,255,0.9);
     }
     
     .stTextArea textarea:focus,
     .stTextInput input:focus {
         border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
-        background: white;
-        color:black;
+        box-shadow: 
+            0 0 0 3px rgba(102,126,234,0.1),
+            inset 6px 6px 12px rgba(0,0,0,0.06),
+            inset -6px -6px 12px rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.95);
+        color: #1e293b !important;
     }
     
     /* Button styling */
@@ -141,127 +223,218 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
-        border-radius: 16px;
-        padding: 0.8rem 2rem;
-        font-weight: 600;
-        font-size: 1rem;
+        border-radius: 20px;
+        padding: 1rem 2.5rem;
+        font-weight: 700;
+        font-size: 1.1rem;
         font-family: 'Inter', sans-serif;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(102,126,234,0.3);
-        min-height: 3rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 
+            12px 12px 24px rgba(102,126,234,0.2),
+            -12px -12px 24px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(255,255,255,0.2),
+            inset -2px -2px 4px rgba(0,0,0,0.1);
+        min-height: 3.5rem;
         width: 100%;
+        border: 1px solid rgba(255,255,255,0.3);
     }
     
     .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(102,126,234,0.4);
-        filter: brightness(1.05);
+        transform: translateY(-3px);
+        box-shadow: 
+            16px 16px 32px rgba(102,126,234,0.25),
+            -16px -16px 32px rgba(255,255,255,0.9),
+            inset 3px 3px 6px rgba(255,255,255,0.25),
+            inset -3px -3px 6px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
     }
     
     .stButton button:active {
-        transform: translateY(0);
+        transform: translateY(-1px);
+        box-shadow: 
+            8px 8px 16px rgba(102,126,234,0.15),
+            -8px -8px 16px rgba(255,255,255,0.9),
+            inset 4px 4px 8px rgba(0,0,0,0.08),
+            inset -4px -4px 8px rgba(255,255,255,0.3);
     }
     
     /* File uploader */
     .stFileUploader {
-        border: 2px dashed rgba(102,126,234,0.3);
-        border-radius: 16px;
-        padding: 2rem;
-        background: rgba(102,126,234,0.05);
-        transition: all 0.3s ease;
+        border: 3px dashed #cbd5e1;
+        border-radius: 24px;
+        padding: 2.5rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%);
+        backdrop-filter: blur(20px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 
+            inset 8px 8px 16px rgba(0,0,0,0.03),
+            inset -8px -8px 16px rgba(255,255,255,0.9);
+        text-align: center;
     }
     
     .stFileUploader:hover {
-        border-color: rgba(102,126,234,0.5);
-        background: rgba(102,126,234,0.08);
+        border-color: #667eea;
+        background: linear-gradient(135deg, rgba(102,126,234,0.05) 0%, rgba(255,255,255,0.8) 100%);
+        box-shadow: 
+            inset 6px 6px 12px rgba(102,126,234,0.05),
+            inset -6px -6px 12px rgba(255,255,255,0.9);
     }
     
     /* Radio button styling */
     .stRadio > div {
-        background: rgba(102,126,234,0.05);
-        border-radius: 12px;
-        padding: 1rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 
+            inset 6px 6px 12px rgba(0,0,0,0.03),
+            inset -6px -6px 12px rgba(255,255,255,0.8);
+        border: 1px solid rgba(255,255,255,0.4);
     }
     
     /* Results styling */
     .result-container {
-        background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border: 1px solid rgba(102,126,234,0.2);
+        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+        border-radius: 24px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border: 2px solid rgba(255,255,255,0.4);
+        backdrop-filter: blur(20px);
+        box-shadow: 
+            15px 15px 30px rgba(0,0,0,0.08),
+            -15px -15px 30px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(0,0,0,0.02),
+            inset -2px -2px 4px rgba(255,255,255,0.7);
+        transition: all 0.4s ease;
     }
     
     .result-label {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #2d3748;
-        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .confidence {
-        font-size: 1rem;
-        color: #718096;
-        font-weight: 500;
+        font-size: 1.1rem;
+        color: #64748b;
+        font-weight: 600;
     }
     
     .phishing {
-        background: linear-gradient(135deg, rgba(245,101,101,0.1) 0%, rgba(237,137,54,0.1) 100%);
-        border-color: rgba(245,101,101,0.3);
+        background: linear-gradient(135deg, rgba(248,113,113,0.1) 0%, rgba(252,165,165,0.1) 100%);
+        border-color: rgba(248,113,113,0.3);
+        box-shadow: 
+            15px 15px 30px rgba(248,113,113,0.1),
+            -15px -15px 30px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(248,113,113,0.05),
+            inset -2px -2px 4px rgba(255,255,255,0.7);
     }
     
     .legitimate {
-        background: linear-gradient(135deg, rgba(72,187,120,0.1) 0%, rgba(56,178,172,0.1) 100%);
-        border-color: rgba(72,187,120,0.3);
+        background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(74,222,128,0.1) 100%);
+        border-color: rgba(34,197,94,0.3);
+        box-shadow: 
+            15px 15px 30px rgba(34,197,94,0.1),
+            -15px -15px 30px rgba(255,255,255,0.9),
+            inset 2px 2px 4px rgba(34,197,94,0.05),
+            inset -2px -2px 4px rgba(255,255,255,0.7);
     }
     
     /* Success/Error messages */
     .stSuccess,
     .stError,
     .stWarning {
-        border-radius: 12px;
+        border-radius: 16px;
         border: none;
-        backdrop-filter: blur(10px);
-    }
-    
-    /* Subheader styling */
-    .stSubheader {
-        color: #2d3748;
-        font-weight: 600;
-        margin-bottom: 1rem;
+        backdrop-filter: blur(20px);
+        box-shadow: 
+            10px 10px 20px rgba(0,0,0,0.06),
+            -10px -10px 20px rgba(255,255,255,0.9);
     }
     
     /* Image display */
     .stImage {
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        box-shadow: 
+            15px 15px 30px rgba(0,0,0,0.1),
+            -15px -15px 30px rgba(255,255,255,0.9);
     }
     
     /* Loading animation */
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
+    @keyframes neuromorphicPulse {
+        0%, 100% { 
+            box-shadow: 
+                8px 8px 16px rgba(0,0,0,0.1),
+                -8px -8px 16px rgba(255,255,255,0.9);
+        }
+        50% { 
+            box-shadow: 
+                12px 12px 24px rgba(0,0,0,0.15),
+                -12px -12px 24px rgba(255,255,255,0.9);
+        }
     }
     
     .loading {
-        animation: pulse 2s infinite;
+        animation: neuromorphicPulse 2s infinite;
+    }
+    
+    /* Footer styling */
+    .footer {
+        text-align: center;
+        margin-top: 4rem;
+        padding: 2.5rem;
+        background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%);
+        border-radius: 20px;
+        box-shadow: 
+            inset 8px 8px 16px rgba(0,0,0,0.03),
+            inset -8px -8px 16px rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.4);
+        color: #64748b;
+        font-weight: 500;
     }
     
     /* Mobile responsiveness */
     @media (max-width: 768px) {
         .main-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
         }
         
         .modern-card {
-            padding: 1.5rem;
-            margin: 1rem 0;
+            padding: 2rem;
+            margin: 1.5rem 0;
         }
         
         .block-container {
             padding: 1rem;
         }
+        
+        .main-header {
+            padding: 2rem 1rem;
+            margin-bottom: 2rem;
+        }
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -275,7 +448,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==== TABS ====
-tab1, tab2, tab3, tab4,tab5 = st.tabs(["📝 Text Analysis", "🖼️ Image Analysis", "🔍 Combined Analysis", "✨ AI Image Generator","✨ AI Code Generator"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📝 Text Analysis", "🖼️ Image Analysis", "🔍 Combined Analysis", "✨ AI Image Generator", "✨ AI Code Generator"])
 
 # ==== TEXT CLASSIFICATION ====
 with tab1:
@@ -429,8 +602,8 @@ with tab3:
                             
                             st.markdown(f"""
                             <div class='result-container {text_class}' style='margin-right: 0.5rem;'>
-                                <div style='font-size: 1.1rem; font-weight: 600;'>{text_icon} Text Analysis</div>
-                                <div>{result['text']['label'].title()}</div>
+                                <div style='font-size: 1.3rem; font-weight: 700;'>{text_icon} Text Analysis</div>
+                                <div style='font-size: 1.1rem; margin: 0.5rem 0;'>{result['text']['label'].title()}</div>
                                 <div class='confidence'>{result['text']['confidence']:.1%}</div>
                             </div>
                             """, unsafe_allow_html=True)
@@ -442,8 +615,8 @@ with tab3:
                             
                             st.markdown(f"""
                             <div class='result-container {img_class}' style='margin-left: 0.5rem;'>
-                                <div style='font-size: 1.1rem; font-weight: 600;'>{img_icon} Image Analysis</div>
-                                <div>{result['image']['label'].title()}</div>
+                                <div style='font-size: 1.3rem; font-weight: 700;'>{img_icon} Image Analysis</div>
+                                <div style='font-size: 1.1rem; margin: 0.5rem 0;'>{result['image']['label'].title()}</div>
                                 <div class='confidence'>{result['image']['confidence']:.1%}</div>
                             </div>
                             """, unsafe_allow_html=True)
@@ -456,120 +629,83 @@ with tab3:
     
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ==== AI GENERATION ====
+# ==== AI IMAGE GENERATION ====
 with tab4:
     st.markdown("<div class='modern-card'>", unsafe_allow_html=True)
-    st.markdown("### ✨ AI Content Generator")
-    st.markdown("Generate text and images using advanced AI models for testing and demonstration purposes.")
+    st.markdown("### ✨ AI Image Generator")
+    st.markdown("Generate high-quality images using advanced AI models for testing and demonstration purposes.")
     
-    gen_type = st.radio(
-        "Choose generation type:",
-        ["📝 Text Generation", "🎨 Image Generation"],
-        horizontal=True
+    prompt = st.text_input(
+        "Enter your image generation prompt:",
+        placeholder="Describe the image you want to generate..."
     )
     
-    if gen_type == "📝 Text Generation":
-        prompt = st.text_area(
-            "Enter your text generation prompt:",
-            height=120,
-            placeholder="Describe what kind of text you want to generate..."
-        )
-        
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            generate_text_btn = st.button("✨ Generate Text", key="gen_text_btn")
-        
-        if generate_text_btn:
-            if prompt.strip():
-                with st.spinner("Generating text..."):
-                    try:
-                        resp = requests.post(f"{API_BASE}/generate-text", data={"prompt": prompt})
-                        if resp.ok:
-                            result = resp.json()
-                            st.markdown("#### 📄 Generated Content")
-                            st.text_area(
-                                "Generated Text:",
-                                result["generated_text"],
-                                height=250,
-                                key="generated_text_output"
-                            )
-                        else:
-                            st.error("🚨 Error generating text. Please try again.")
-                    except Exception as e:
-                        st.error("🚨 Network error. Please try again.")
-            else:
-                st.warning("📝 Please enter a prompt for text generation.")
-    
-    else:  # Image Generation
-        prompt = st.text_input(
-            "Enter your image generation prompt:",
-            placeholder="Describe the image you want to generate..."
-        )
-        
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            generate_img_btn = st.button("🎨 Generate Image", key="gen_img_btn")
-        
-        if generate_img_btn:
-            if prompt.strip():
-                with st.spinner("Creating your image..."):
-                    try:
-                        resp = requests.post(f"{API_BASE}/generate-image", data={"prompt": prompt})
-                        if resp.ok:
-                            result = resp.json()
-                            img_url = result["image_url"]
-                            
-                            st.markdown("#### 🖼️ Generated Image")
-                            try:
-                                image_data = requests.get(img_url).content
-                                image = Image.open(io.BytesIO(image_data))
-                                st.image(image, caption="Generated Image", use_column_width=True)
-                            except Exception as img_error:
-                                st.error("🚨 Could not load the generated image.")
-                        else:
-                            st.error("🚨 Error generating image. Please try again.")
-                    except Exception as e:
-                        st.error("🚨 Network error. Please try again.")
-            else:
-                st.warning("🎨 Please enter a prompt for image generation.")
-    
-    st.markdown("</div>", unsafe_allow_html=True)
-with tab5:
-    st.markdown("<div class='modern-card'>", unsafe_allow_html=True)
-    st.markdown("### ✨ AI Code Generator")
-    st.markdown("Generate Python code snippets using an advanced AI model.")
-
-    prompt = st.text_area(
-        "Enter your Python code generation prompt:",
-        height=120,
-        placeholder="Describe the code you want to generate..."
-    )
-
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        generate_code_btn = st.button("✨ Generate Code", key="gen_code_btn")
-
-    if generate_code_btn:
+        generate_img_btn = st.button("🎨 Generate Image", key="gen_img_btn")
+    
+    if generate_img_btn:
         if prompt.strip():
-            with st.spinner("Generating Python code..."):
+            with st.spinner("Creating your image..."):
                 try:
-                    resp = requests.post(f"{API_BASE}/generate-python-code", data={"prompt": prompt})
+                    resp = requests.post(f"{API_BASE}/generate-image", data={"prompt": prompt})
                     if resp.ok:
                         result = resp.json()
-                        st.markdown("#### 📄 Generated Python Code")
-                        st.text_area(
-                            "Generated Code:",
-                            result.get("generated_code", ""),
-                            height=250,
-                            key="generated_code_output"
-                        )
+                        img_url = result["image_url"]
+                        
+                        st.markdown("#### 🖼️ Generated Image")
+                        try:
+                            image_data = requests.get(img_url).content
+                            image = Image.open(io.BytesIO(image_data))
+                            st.image(image, caption="Generated Image", use_column_width=True)
+                        except Exception:
+                            st.error("⚠️ Failed to load generated image.")
                     else:
-                        st.error("🚨 Error generating Python code. Please try again.")
+                        st.error("🚨 Error connecting to API. Please check your connection.")
                 except Exception as e:
                     st.error("🚨 Network error. Please try again.")
         else:
-            st.warning("📝 Please enter a prompt for Python code generation.")
+            st.warning("💡 Please enter a prompt to generate an image.")
+    
+    st.markdown("</div>", unsafe_allow_html=True)
 
+# ==== AI CODE GENERATION ====
+with tab5:
+    st.markdown("<div class='modern-card'>", unsafe_allow_html=True)
+    st.markdown("### ✨ AI Code Generator")
+    st.markdown("Generate code snippets using AI models for development and educational purposes.")
+    
+    code_prompt = st.text_area(
+        "Enter your code generation prompt:",
+        height=150,
+        placeholder="Describe the code you want the AI to generate..."
+    )
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        generate_code_btn = st.button("💻 Generate Code", key="gen_code_btn")
+    
+    if generate_code_btn:
+        if code_prompt.strip():
+            with st.spinner("Generating your code..."):
+                try:
+                    resp = requests.post(f"{API_BASE}/generate-code", data={"prompt": code_prompt})
+                    if resp.ok:
+                        result = resp.json()
+                        code_output = result.get("code", "")
+                        
+                        if code_output:
+                            st.markdown("#### 📝 Generated Code")
+                            st.code(code_output, language="python")
+                        else:
+                            st.warning("⚠️ No code generated. Try refining your prompt.")
+                    else:
+                        st.error("🚨 Error connecting to API. Please check your connection.")
+                except Exception as e:
+                    st.error("🚨 Network error. Please try again.")
+        else:
+            st.warning("💡 Please enter a prompt to generate code.")
+    
     st.markdown("</div>", unsafe_allow_html=True)
 
 
