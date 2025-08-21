@@ -47,14 +47,14 @@ class_weights = class_weight.compute_class_weight('balanced', classes=np.unique(
 class_weight_dict = dict(enumerate(class_weights))
 
 callbacks = [
-    EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True),
     ModelCheckpoint('best_cnn_model.keras', save_best_only=True),
     ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5)
 ]
 
+
 history = model.fit(
     datagen.flow(X_train, y_train, batch_size=32),
-    epochs=200,
+    epochs=100,
     validation_data=(X_val, y_val),
     class_weight=class_weight_dict,
     callbacks=callbacks

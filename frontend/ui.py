@@ -689,10 +689,10 @@ with tab5:
         if code_prompt.strip():
             with st.spinner("Generating your code..."):
                 try:
-                    resp = requests.post(f"{API_BASE}/generate-code", data={"prompt": code_prompt})
+                    resp = requests.post(f"{API_BASE}/generate-python-code", data={"prompt": code_prompt})
                     if resp.ok:
                         result = resp.json()
-                        code_output = result.get("code", "")
+                        code_output = result.get("generated_code", "")
                         
                         if code_output:
                             st.markdown("#### 📝 Generated Code")

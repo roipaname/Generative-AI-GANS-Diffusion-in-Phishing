@@ -37,7 +37,7 @@ app.add_middleware(
 
 # === Load models on startup ===
 print("Loading CNN model...")
-cnn_model = load_model("./outputs/cnn_model.h5")
+cnn_model = load_model("./outputs/cnn_model.h5",compile=False)
 print("CNN model loaded.")
 
 print("Loading GPT language model...")
@@ -57,7 +57,7 @@ gpt_classifier_model.load_state_dict(torch.load("./outputs/classification_model.
 gpt_classifier_model.eval()
 print("GPT classifier model loaded.")
 print("Loading Code generator model...")
-tokenizer_code=AutoTokenizer.from_pretrained(code_gen_modelpath)
+tokenizer_code=AutoTokenizer.from_pretrained("Salesforce/codegen-350M-mono")
 code_model = AutoModelForCausalLM.from_pretrained(code_gen_modelpath).to(device)
 print("Code Generator model loaded.")
 
