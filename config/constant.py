@@ -8,5 +8,5 @@ GPT_CONFIG={
     "qkv_bias": False
 }
 output_dir = 'outputs'
-
+Faiss_Dir="db/faiss"
 image_ext=['jpeg','png','jpg','bmg']
