@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T08:37:14.629448",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.997277557849884,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Dr. Patel appointment on 2025-05-30 at 09:00. Reply RESCHEDULE to change or CALL to speak with reception.",
+  "text_length": 105,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.997277557849884
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 08:37:14",
+  "scan_date": "2025-10-15",
+  "scan_time": "08:37:14"
+}

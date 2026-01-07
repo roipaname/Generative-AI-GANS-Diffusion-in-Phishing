@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T08:42:03.019000",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999558925628662,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Hello team, the internal system will be updated this Saturday at 22:00. Please save your work and log out before maintenance begins.",
+  "text_length": 132,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999558925628662
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 08:42:03",
+  "scan_date": "2025-10-15",
+  "scan_time": "08:42:03"
+}

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-11-05T13:43:40.180514",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999819993972778,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "hello are you free tommrorow\n",
+  "text_length": 29,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999819993972778
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-05 13:43:40",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:43:40"
+}

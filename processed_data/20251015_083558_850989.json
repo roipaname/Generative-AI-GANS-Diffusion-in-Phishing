@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-10-15T08:35:58.850989",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9998624324798584,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Hi Clarence, thank you for attending the AI workshop. The slides and resources are now available at our official training portal: https://training.uj.ac.za/resources\n",
+  "text_length": 166,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9998624324798584
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 1,
+  "urls": [
+    "https://training.uj.ac.za/resources"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 08:35:58",
+  "scan_date": "2025-10-15",
+  "scan_time": "08:35:58"
+}

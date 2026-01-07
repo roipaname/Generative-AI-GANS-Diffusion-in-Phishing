@@ -1,3 +1,4 @@
+
 import io
 import os,sys
 from fastapi import FastAPI, UploadFile, File, Form
@@ -22,7 +23,7 @@ import tiktoken
 
 code_gen_modelpath="./outputs/checkpoint-8394"
 
-# Load tiktoken encoding for your GPT model (assuming GPT-2 compatible)
+# Loading tiktoken encoding for  GPT model 
 tokenizer = tiktoken.get_encoding("gpt2")
 
 app = FastAPI()
@@ -35,7 +36,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# === Load models on startup ===
+# === Loading models on startup ===
 print("Loading CNN model...")
 cnn_model = load_model("./outputs/cnn_model.h5",compile=False)
 print("CNN model loaded.")
@@ -46,14 +47,14 @@ print("Loading GPT language model...")
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 gpt_language_model = GPTModel(GPT_CONFIG).to(device)
-gpt_language_model.load_state_dict(torch.load("./outputs/gpt_model_latest.pt", map_location=device))
+gpt_language_model.load_state_dict(torch.load("./outputs/gpt_model.pth", map_location=device))
 gpt_language_model.eval()
 print("GPT language model loaded.")
 
 print("Loading GPT classification model...")
 base_gpt=gpt_language_model
 gpt_classifier_model = GPTForClassification(base_gpt, hidden_size=GPT_CONFIG['emb_dim'], num_classes=2).to(device)
-gpt_classifier_model.load_state_dict(torch.load("./outputs/classification_model.pt", map_location=device))
+gpt_classifier_model.load_state_dict(torch.load("./outputs/classification_gpt.pth", map_location=device))
 gpt_classifier_model.eval()
 print("GPT classifier model loaded.")
 print("Loading Code generator model...")
@@ -69,7 +70,7 @@ def preprocess_image(file: UploadFile) -> np.ndarray:
     image = Image.open(io.BytesIO(file.file.read())).convert("RGB")
     image = image.resize((128, 128))  # CNN trained on 128x128 images
     image_array = np.array(image) / 255.0
-    return np.expand_dims(image_array, axis=0)  # add batch dim
+    return np.expand_dims(image_array, axis=0)  # adding batch dim
 
 def classify_image(file: UploadFile):
     img = preprocess_image(file)
@@ -104,7 +105,7 @@ def classify_text(text: str):
     gpt_classifier_model.eval()
     with torch.no_grad():
         encoded = text_to_token_ids(text, tokenizer).to(device)
-        if encoded.dim() == 1:  # ensure batch dimension
+        if encoded.dim() == 1:  
             encoded = encoded.unsqueeze(0)
         logits = gpt_classifier_model(encoded)
         probs = torch.softmax(logits, dim=-1)
@@ -127,13 +128,14 @@ def classify_text_and_image(text: str, file: UploadFile):
 
 # Stub for diffusion image generation (work in progress)
 def generate_image_diffusion(prompt: str) -> str:
-    # Ensure output directory exists
+    # Ensuring output directory exists
     output_dir = "./outputs/generated_images"
     os.makedirs(output_dir, exist_ok=True)
 
     # Generate image using loaded pipeline
     with torch.no_grad():
-        result = pipe(prompt, guidance_scale=9,num_inference_steps=70,width=768,height=768)
+        result = pipe(prompt,guidance_scale=9,num_inference_steps=70,width=512,height=512)
+
     image = result.images[0]
 
     # Create a unique filename with timestamp
@@ -145,9 +147,9 @@ def generate_image_diffusion(prompt: str) -> str:
     # Save image file
     image.save(filepath)
 
-    # Return the relative path or URL to the saved image
-    # You can adjust this depending on how your server serves static files
+    # Returning the relative path 
     return filepath
+
 @app.on_event("startup")
 def load_model():
     global pipe

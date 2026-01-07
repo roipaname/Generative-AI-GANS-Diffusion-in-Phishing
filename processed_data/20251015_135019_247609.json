@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T13:50:19.247609",
+  "scan_type": "voice",
+  "is_phishing": false,
+  "confidence": 0.9922643899917603,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "hello my name is CDs and I'm quite interested in AI",
+  "text_length": 51,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9922643899917603
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpm1m7o4pe.wav",
+  "scan_timestamp_readable": "2025-10-15 13:50:19",
+  "scan_date": "2025-10-15",
+  "scan_time": "13:50:19"
+}

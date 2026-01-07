@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T12:25:34.322727",
+  "scan_type": "voice",
+  "is_phishing": false,
+  "confidence": 0.9998519420623779,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "just say anything that monitors everything that you do to ensure that you know there is no virus being a bus around the snow or malicious 5 it then stops it flaxseed and then because it to maybe like your side button",
+  "text_length": 216,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9998519420623779
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpvz21nz1x.wav",
+  "scan_timestamp_readable": "2025-10-15 12:25:34",
+  "scan_date": "2025-10-15",
+  "scan_time": "12:25:34"
+}

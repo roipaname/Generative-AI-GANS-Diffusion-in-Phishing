@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-10-14T21:49:53.017835",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999388456344604,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Hi team, urgent maintenance update — confirm your workstation is online or you’ll be disconnected: https://suewhitehurst.shop Reply DONE once connected.",
+  "text_length": 152,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999388456344604
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 1,
+  "urls": [
+    "https://suewhitehurst.shop"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-14 21:49:53",
+  "scan_date": "2025-10-14",
+  "scan_time": "21:49:53"
+}

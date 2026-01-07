@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T00:30:50.782292",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.8373351097106934,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "so this is testo and let's see how it goes from you thank you",
+  "text_length": 61,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.8373351097106934
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmp13oie_51.wav",
+  "scan_timestamp_readable": "2025-10-15 00:30:50",
+  "scan_date": "2025-10-15",
+  "scan_time": "00:30:50"
+}

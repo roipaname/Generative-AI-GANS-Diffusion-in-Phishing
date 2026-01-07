@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-11-05T13:41:29.265548",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.999984860420227,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Hi there, We’ve received your order and are getting it ready to ship. We'll send you another email with tracking information as soon as it leaves our warehouse. You can view your order details or check its status at any time by logging into your account on our official website. We appreciate your business!\n",
+  "text_length": 308,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.999984860420227
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-05 13:41:29",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:41:29"
+}

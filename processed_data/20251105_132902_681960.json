@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-11-05T13:29:02.681960",
+  "scan_type": "voice",
+  "is_phishing": false,
+  "confidence": 0.9995114803314209,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "this is a test and I want to see if it works",
+  "text_length": 44,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9995114803314209
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmp1d41xpf2.wav",
+  "scan_timestamp_readable": "2025-11-05 13:29:02",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:29:02"
+}

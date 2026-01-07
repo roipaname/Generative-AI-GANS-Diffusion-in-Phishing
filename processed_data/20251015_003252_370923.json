@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T00:32:52.370923",
+  "scan_type": "voice",
+  "is_phishing": false,
+  "confidence": 0.9994681477546692,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "my name is a baby Clarence on the sea how it works for me thank you",
+  "text_length": 67,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9994681477546692
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpsj5hmqub.wav",
+  "scan_timestamp_readable": "2025-10-15 00:32:52",
+  "scan_date": "2025-10-15",
+  "scan_time": "00:32:52"
+}

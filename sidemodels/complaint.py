@@ -1,7 +1,4 @@
-# =========================
-# 1. SETUP FOR COLAB + GPU
-# =========================
-#!pip install tiktoken joblib
+
 
 import torch, torch.nn as nn
 import torch.nn.functional as F
@@ -12,18 +9,18 @@ import tiktoken
 import joblib
 import os
 
-# Mount Google Drive
+
 from google.colab import drive
 drive.mount('/content/drive')
 
-# Use GPU if available
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 # =========================
 # 2. LOAD DATA
 # =========================
-df = pd.read_csv("/content/drive/MyDrive/data/complaints_processed.csv")  # <-- Adjust path in Drive
+df = pd.read_csv("/content/drive/MyDrive/data/complaints_processed.csv")  
 df = df.drop_duplicates()
 print(df.info())
 
@@ -81,7 +78,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 # =========================
 # 5. TRAINING LOOP
 # =========================
-for epoch in range(50):  # Reduce to 10 epochs for quicker testing
+for epoch in range(50):  
     for x, y in dataloader:
         x, y = x.to(device), y.to(device)
 
@@ -120,5 +117,5 @@ def predict(text):
         pred = torch.argmax(output, dim=1).item()
     return label_encoder.inverse_transform([pred])[0]
 
-# Example usage
+
 print(predict("The mortgage process was confusing and caused delays."))

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T11:24:55.826870",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.974054753780365,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "picture of Lionel Messi",
+  "text_length": 23,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.974054753780365
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpq7e47zdp.wav",
+  "scan_timestamp_readable": "2025-10-15 11:24:55",
+  "scan_date": "2025-10-15",
+  "scan_time": "11:24:55"
+}

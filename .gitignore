@@ -212,3 +212,4 @@ data/raw/gpt/large-762M-k40.test.csv
 data/
 data/raw/gpt/
 outputs/
+.env

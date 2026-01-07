@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-11-05T13:42:33.979637",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999916553497314,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Hello, We're writing to let you know that we’re updating our Terms of Service and Privacy Policy, effective December 1st. These changes will help clarify our data practices and introduce new features. You don't need to take any action. We encourage you to review the full, updated documents on our site when you have a moment. Thanks for being a part of our community.",
+  "text_length": 368,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999916553497314
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-05 13:42:33",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:42:33"
+}

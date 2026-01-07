@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T11:24:51.032904",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.7731363773345947,
+  "risk_level": "medium",
+  "overall_verdict": "phishing",
+  "text_content": "what's up pushka",
+  "text_length": 16,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.7731363773345947
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpq7e47zdp.wav",
+  "scan_timestamp_readable": "2025-10-15 11:24:51",
+  "scan_date": "2025-10-15",
+  "scan_time": "11:24:51"
+}

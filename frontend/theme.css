@@ -1,0 +1,23 @@
+/* style.css additions */
+body {
+  background-color: #12181f; /* Dark navy */
+  color: #ccd6f6;
+}
+
+.result-container.phishing {
+  background: rgba(255, 77, 77, 0.15);
+  border: 1px solid #ff4d4d;
+  box-shadow: 0px 0px 15px rgba(255, 77, 77, 0.6);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.result-container.legitimate {
+  background: rgba(100, 255, 218, 0.15);
+  border: 1px solid #64ffda;
+  box-shadow: 0px 0px 15px rgba(100, 255, 218, 0.6);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}

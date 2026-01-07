@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T15:43:07.332337",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.9998112320899963,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "hey please work normally",
+  "text_length": 24,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9998112320899963
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmppddbkdlx.wav",
+  "scan_timestamp_readable": "2025-10-15 15:43:07",
+  "scan_date": "2025-10-15",
+  "scan_time": "15:43:07"
+}

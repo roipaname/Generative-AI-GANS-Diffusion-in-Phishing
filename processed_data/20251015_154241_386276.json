@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T15:42:41.386276",
+  "scan_type": "voice",
+  "is_phishing": false,
+  "confidence": 0.9994630217552185,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "hi I'm trying to rob a bank",
+  "text_length": 27,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9994630217552185
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmp41rp_km5.wav",
+  "scan_timestamp_readable": "2025-10-15 15:42:41",
+  "scan_date": "2025-10-15",
+  "scan_time": "15:42:41"
+}

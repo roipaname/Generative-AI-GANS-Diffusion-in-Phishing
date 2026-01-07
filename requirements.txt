@@ -69,3 +69,6 @@ filelock==3.16.0
 joblib==1.4.2
 sympy==1.13.3
 typing-extensions==4.12.2
+
+
+seaborn

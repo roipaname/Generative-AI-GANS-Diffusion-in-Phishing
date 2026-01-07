@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-11-15T00:16:11.845605",
+  "scan_type": "text",
+  "is_phishing": false,
+  "confidence": 0.9981576800346375,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "im trying to scam you, www.scam.com",
+  "text_length": 35,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9981576800346375
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 1,
+  "urls": [
+    "www.scam.com"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-15 00:16:11",
+  "scan_date": "2025-11-15",
+  "scan_time": "00:16:11"
+}

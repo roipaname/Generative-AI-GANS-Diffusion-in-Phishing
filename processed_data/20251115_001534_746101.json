@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-11-15T00:15:34.746101",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9996046423912048,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "im trying to scam you",
+  "text_length": 21,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9996046423912048
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-15 00:15:34",
+  "scan_date": "2025-11-15",
+  "scan_time": "00:15:34"
+}

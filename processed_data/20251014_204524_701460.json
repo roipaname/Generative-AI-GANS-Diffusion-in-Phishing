@@ -1,0 +1,29 @@
+{
+  "timestamp": "2025-10-14T20:45:24.701460",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999732971191406,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "* here: .https://pay-pail.com If you don’t accept, the submission will be withdrawn.\n*  Hi team, urgent maintenance update — confirm your workstation is online or you’ll be disconnected: https://suewhitehurst.shop Reply DONE once connected.",
+  "text_length": 240,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999732971191406
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 2,
+  "urls": [
+    "https://pay-pail.com",
+    "https://suewhitehurst.shop"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-14 20:45:24",
+  "scan_date": "2025-10-14",
+  "scan_time": "20:45:24"
+}

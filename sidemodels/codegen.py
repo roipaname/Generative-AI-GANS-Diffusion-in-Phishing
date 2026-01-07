@@ -2,9 +2,9 @@ from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, Trainer, TrainingArguments
 import torch
 
-print(torch.cuda.is_available())  # Should print True
-print(torch.cuda.device_count())  # Number of GPUs
-print(torch.cuda.get_device_name(0))  # GPU name
+print(torch.cuda.is_available())  
+print(torch.cuda.device_count())  
+print(torch.cuda.get_device_name(0))  
 
 
 # Load dataset
@@ -35,7 +35,7 @@ model.to(device)
 def tokenize_fn(example):
     text = f"System: {example['system']}\nInstruction: {example['instruction']}\nOutput:\n{example['output']}"
     tokenized = tokenizer(text, truncation=True, padding="max_length", max_length=512)
-    # labels are the same as input_ids for causal LM
+    
     tokenized["labels"] = tokenized["input_ids"].copy()
     return tokenized
 
@@ -46,12 +46,12 @@ tokenized = dataset.map(tokenize_fn, batched=False, remove_columns=dataset.colum
 # Training args
 training_args = TrainingArguments(
     output_dir="./codegen_model",
-    per_device_train_batch_size=2,  # batch per GPU
+    per_device_train_batch_size=2,  
     num_train_epochs=3,
     save_steps=500,
     logging_steps=50,
     learning_rate=5e-5,
-    fp16=True,           # enables mixed precision for faster GPU training
+    fp16=True,           
 )
 # Trainer
 trainer = Trainer(

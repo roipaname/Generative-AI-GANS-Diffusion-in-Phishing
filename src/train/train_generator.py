@@ -202,22 +202,22 @@ if __name__ == "__main__":
     
     os.makedirs("outputs", exist_ok=True)
 
-    # Example 1: Train language model
+    #  Train language model
     print("Training language model...")
     lm_model, train_losses, val_losses, tokens_seen = train_language_model_from_csvs(
         csv_pattern="./data/language/*.csv",
         model_config=GPT_CONFIG,
         device=device
     )
-    torch.save(lm_model.state_dict(), "outputs/language_model.pt")
-    print("Saved language model to outputs/language_model.pt")
+    torch.save(lm_model.state_dict(), "outputs/gpt_model.pth")
+    print("Saved language model to outputs/gpt_model.pth")
 
-    # Example 2: Train classification model
+    # Train classification model
     print("Training classification model...")
     cls_model, train_losses, val_accuracies = train_classification_model_from_csvs(
         csv_pattern="./data/phishing/*.csv",
         model_config=GPT_CONFIG,
         device=device
     )
-    torch.save(cls_model.state_dict(), "outputs/classification_model.pt")
+    torch.save(cls_model.state_dict(), "outputs/classification_gpt.pth")
     print("Saved classification model to outputs/classification_model.pt")

@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T12:46:32.022360",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.9991581439971924,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "so hello how are you doing",
+  "text_length": 26,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9991581439971924
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmp991t8zzf.wav",
+  "scan_timestamp_readable": "2025-10-15 12:46:32",
+  "scan_date": "2025-10-15",
+  "scan_time": "12:46:32"
+}

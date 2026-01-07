@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-10-15T13:21:02.225702",
+  "scan_type": "combined",
+  "is_phishing": true,
+  "confidence": 0.9996999502182007,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Good morning Clarence, please review the reviewer’s comments in the attached document and accept the edits here: .https://pay-pail.com If you don’t accept, the submission will be withdrawn.",
+  "text_length": 189,
+  "has_image": false,
+  "text_analysis": null,
+  "image_analysis": null,
+  "combined_analysis": {
+    "label": "phishing",
+    "confidence": 0.9996999502182007,
+    "text": {
+      "label": "phishing",
+      "confidence": 0.9996999502182007
+    },
+    "image": {
+      "label": "not phishing",
+      "confidence": 0.6285762786865234
+    }
+  },
+  "urls_detected": 1,
+  "urls": [
+    "https://pay-pail.com"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 13:21:02",
+  "scan_date": "2025-10-15",
+  "scan_time": "13:21:02"
+}

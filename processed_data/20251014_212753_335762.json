@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-14T21:27:53.335762",
+  "scan_type": "text",
+  "is_phishing": false,
+  "confidence": 0.9977745413780212,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "Hi team, the new onboarding documentation has been uploaded to the shared drive. Take a look before Friday’s review and leave any comments in the doc.",
+  "text_length": 150,
+  "has_image": false,
+  "text_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9977745413780212
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-14 21:27:53",
+  "scan_date": "2025-10-14",
+  "scan_time": "21:27:53"
+}

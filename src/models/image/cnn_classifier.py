@@ -1,4 +1,6 @@
 from tensorflow.keras import layers, models
+
+
 def create_cnn_model(input_shape, num_classes):
     """
     Defines the convolutional neural network (CNN) model architecture.

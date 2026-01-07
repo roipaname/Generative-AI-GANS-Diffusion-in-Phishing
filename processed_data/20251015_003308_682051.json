@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T00:33:08.682051",
+  "scan_type": "image",
+  "is_phishing": false,
+  "confidence": 0.6285762786865234,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": null,
+  "text_length": 0,
+  "has_image": true,
+  "text_analysis": null,
+  "image_analysis": {
+    "label": "not phishing",
+    "confidence": 0.6285762786865234
+  },
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 00:33:08",
+  "scan_date": "2025-10-15",
+  "scan_time": "00:33:08"
+}

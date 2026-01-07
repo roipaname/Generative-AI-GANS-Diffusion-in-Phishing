@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-10-15T14:14:06.935034",
+  "scan_type": "voice",
+  "is_phishing": true,
+  "confidence": 0.9999521970748901,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "hello can you please give me your ID number and your card Tokyo your password",
+  "text_length": 77,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999521970748901
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": "/var/folders/fn/6dwz4zm53lg5h0d7y8mht0580000gn/T/tmpm1m7o4pe.wav",
+  "scan_timestamp_readable": "2025-10-15 14:14:06",
+  "scan_date": "2025-10-15",
+  "scan_time": "14:14:06"
+}

@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-11-05T13:41:01.890796",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999916553497314,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Dear Valued Customer, Our security system detected a login to your account from an unrecognized IP address in Vietnam. For your protection, we have temporarily suspended your account. To restore access and prevent deactivation, you must verify your identity immediately. Please log in to our secure portal by clicking the link below. Failure to comply within 24 hours will result in permanent account closure.\n\nClick here to verify: http://www.microsft-login.com/secure-auth",
+  "text_length": 474,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999916553497314
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 1,
+  "urls": [
+    "http://www.microsft-login.com/secure-auth"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-05 13:41:01",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:41:01"
+}

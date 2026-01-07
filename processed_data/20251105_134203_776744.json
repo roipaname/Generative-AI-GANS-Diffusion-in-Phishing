@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-11-05T13:42:03.776744",
+  "scan_type": "text",
+  "is_phishing": true,
+  "confidence": 0.9999862909317017,
+  "risk_level": "high",
+  "overall_verdict": "phishing",
+  "text_content": "Congratulations! As a thank you for being a loyal customer, your profile was selected to receive a $100 e-Gift Card. Your reward is waiting for you. To claim your gift, you just need to complete a brief survey and confirm your shipping details. This offer is only valid for the next 48 hours. Get your reward now!\n\nClaim here: http://bit.ly/rewards-center-123",
+  "text_length": 359,
+  "has_image": false,
+  "text_analysis": {
+    "label": "phishing",
+    "confidence": 0.9999862909317017
+  },
+  "image_analysis": null,
+  "combined_analysis": null,
+  "urls_detected": 1,
+  "urls": [
+    "http://bit.ly/rewards-center-123"
+  ],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-11-05 13:42:03",
+  "scan_date": "2025-11-05",
+  "scan_time": "13:42:03"
+}

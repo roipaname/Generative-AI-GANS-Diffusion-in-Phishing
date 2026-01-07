@@ -3,19 +3,14 @@ phishnet-ai/
 ├── README.md
 ├── requirements.txt
 ├── config/
-│   └── config.yaml                  # Model, dataset, and training configs
+│   └── constant.py                  # Model, dataset, and training configs
 │
 ├── data/
-│   ├── raw/                         # Unprocessed datasets (PhishTank, OpenPhish)
-│   ├── processed/                   # Preprocessed data (text, images)
-│   ├── synthetic/                   # GAN/Diffusion-generated data
-│   └── adversarial/                # ChatGPT adversarial phishing samples
+│   ├── language/                         # Unprocessed datasets (PhishTank, OpenPhish)
+│   ├── phishing/                   # Preprocessed data (text, images)
+│   ├── phishingimage/                   # GAN/Diffusion-generated data
+│                   # ChatGPT adversarial phishing samples
 │
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_text_finetune_bert.ipynb
-│   ├── 03_image_cnn_train.ipynb
-│   └── 04_diffusion_gan_generation.ipynb
 │
 ├── src/
 │   ├── __init__.py
@@ -26,39 +21,33 @@ phishnet-ai/
 │   ├── data_loader/
 │   │   ├── text_loader.py          # Tokenize + Load text datasets
 │   │   ├── image_loader.py         # Load phishing images
-│   │   └── synth_loader.py         # Load synthetic data
+│   │            
 │   │
 │   ├── models/
 │   │   ├── text/
-│   │   │   ├── bert_classifier.py
-│   │   │   ├── gpt_generator.py
-│   │   │   └── roberta_classifier.py
+│   │   │ 
+│   │   │   ├── gpt_classifier.py
+│   │   │   
 │   │   │
 │   │   ├── image/
 │   │   │   ├── cnn_classifier.py
-│   │   │   ├── vit_classifier.py
-│   │   │   └── gan_generator.py
+│   │   │   ├── diffusion.py
+│   │   │   
 │   │   │
-│   │   └── hybrid/
-│   │       ├── multimodal_fusion.py  # Combines image & text features
-│   │       └── ensemble_voting.py    # Voting ensemble logic
+│   │   
 │   │
 │   ├── train/
 │   │   ├── train_text.py           # Fine-tunes BERT/RoBERTa
 │   │   ├── train_image.py          # Trains CNNs, ViTs
 │   │   ├── train_generator.py      # Trains GANs, diffusion models
-│   │   └── train_hybrid.py         # Trains ensemble/hybrid models
+│   │            
 │   │
 │   └── evaluate/
 │       ├── evaluate_text.py        # Text classifier eval
 │       ├── evaluate_image.py       # Image classifier eval
 │       ├── evaluate_generator.py   # Realism metrics: FID, expert review
-│       └── evaluate_robustness.py  # Adversarial robustness
+│       
 │
-├── scripts/
-│   ├── run_finetune_text.sh
-│   ├── run_train_image.sh
-│   └── run_generate_synthetic.sh
 │
 └── outputs/
     ├── logs/

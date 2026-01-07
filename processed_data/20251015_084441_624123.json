@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-10-15T08:44:41.624123",
+  "scan_type": "combined",
+  "is_phishing": false,
+  "confidence": 0.9993952512741089,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "Hi Clarence, just a quick note to confirm tomorrow’s strategy session at 10:30 in Meeting Room 2. Please bring the latest campaign metrics for discussion.",
+  "text_length": 154,
+  "has_image": false,
+  "text_analysis": null,
+  "image_analysis": null,
+  "combined_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9993952512741089,
+    "text": {
+      "label": "not phishing",
+      "confidence": 0.9993952512741089
+    },
+    "image": {
+      "label": "not phishing",
+      "confidence": 0.6285762786865234
+    }
+  },
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 08:44:41",
+  "scan_date": "2025-10-15",
+  "scan_time": "08:44:41"
+}

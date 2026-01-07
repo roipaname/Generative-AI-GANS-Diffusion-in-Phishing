@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-10-15T08:02:10.997017",
+  "scan_type": "combined",
+  "is_phishing": false,
+  "confidence": 0.9189419150352478,
+  "risk_level": "low",
+  "overall_verdict": "not phishing",
+  "text_content": "[CityHealth] Reminder: Dr. Patel appointment on 2025-05-30 at 09:00. Reply RESCHEDULE to change or CALL to speak with reception.",
+  "text_length": 128,
+  "has_image": false,
+  "text_analysis": null,
+  "image_analysis": null,
+  "combined_analysis": {
+    "label": "not phishing",
+    "confidence": 0.9189419150352478,
+    "text": {
+      "label": "not phishing",
+      "confidence": 0.9189419150352478
+    },
+    "image": {
+      "label": "not phishing",
+      "confidence": 0.5352808237075806
+    }
+  },
+  "urls_detected": 0,
+  "urls": [],
+  "malicious_urls": 0,
+  "suspicious_urls": 0,
+  "url_threat_details": [],
+  "voice_metadata": null,
+  "scan_timestamp_readable": "2025-10-15 08:02:10",
+  "scan_date": "2025-10-15",
+  "scan_time": "08:02:10"
+}

@@ -41,7 +41,7 @@ datagen = ImageDataGenerator(
 )
 datagen.fit(X_train)
 
-# Calculate class weights to handle imbalanced datasets
+# Calculating class weights to handle imbalanced datasets
 class_weights = class_weight.compute_class_weight('balanced', classes=np.unique(np.argmax(y_train, axis=1)), y=np.argmax(y_train, axis=1))
 # Convert class weights to a dictionary for use during training
 class_weight_dict = dict(enumerate(class_weights))
