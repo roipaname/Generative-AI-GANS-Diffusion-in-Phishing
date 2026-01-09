@@ -28,3 +28,4 @@ huggingface-hub==0.24.6
 PyYAML==6.0.2
 streamlit==1.37.1
 requests==2.32.3
+matplotlib
