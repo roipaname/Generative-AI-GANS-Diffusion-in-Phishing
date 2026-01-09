@@ -1,74 +1,30 @@
-absl-py==2.1.0
-accelerate==0.34.2
-altair==5.5.0
-annotated-types==0.7.0
-anyio==3.7.1
-astunparse==1.6.3
-async-timeout==5.0.1
-attrs==25.1.0
-blinker==1.9.0
-cachetools==5.5.2
-certifi==2025.8.3
-charset-normalizer==3.4.3
-click==8.2.1
-contourpy==1.3.1
-cycler==0.12.1
-cymem==2.0.11
-
-# Hugging Face ecosystem
-datasets==3.1.0
-diffusers==0.30.2
-huggingface-hub==0.24.6
-transformers==4.44.2
-safetensors==0.4.5
-tiktoken==0.5.2
-#tokenizers==0.19.1
-
-# FastAPI + server
+# ---- Core API ----
 fastapi==0.111.0
-starlette==0.37.2
-pydantic==2.11.7
-pydantic_core==2.33.2
-uvicorn[standard]==0.30.1
-uvloop==0.21.0
-watchfiles==1.1.0
-websockets==15.0.1
-
-# Torch ecosystem
-#torch
-#torchvision
-#torchaudio
-
-# Data science
-#numpy==1.26.4
-pandas==2.2.3
-scikit-learn==1.5.2
-scipy==1.15.1
-matplotlib==3.9.2
-pillow==10.4.0
-#tqdm==4.67.1
-
-# TensorFlow (kept optional, but pinned to last stable 2.x)
-tensorflow==2.15.0
-tensorflow-estimator==2.15.0
-tensorboard==2.15.2
-tensorboard-data-server==0.7.2
-tensorflow-io-gcs-filesystem==0.37.1
-keras==2.15.0
-
-# Other utils
-protobuf==4.25.8
-regex==2023.10.3
-requests==2.32.3
-requests-oauthlib==2.0.0
-psutil==5.9.8
-python-dotenv==1.0.1
+uvicorn==0.30.1
 python-multipart==0.0.9
-PyYAML==6.0.2
-filelock==3.16.0
-joblib==1.4.2
-sympy==1.13.3
+python-dotenv==1.0.1
+requests==2.32.3
+
+# ---- Torch (inference only) ----
+torch==2.2.2
 typing-extensions==4.12.2
+filelock==3.16.0
 
+# ---- NLP / GPT ----
+transformers==4.44.2
+tiktoken==0.5.2
+safetensors==0.4.5
 
-seaborn
+# ---- Image / CNN ----
+tensorflow==2.15.0
+keras==2.15.0
+numpy==1.26.4
+pillow==10.4.0
+
+# ---- HuggingFace utilities (needed indirectly) ----
+huggingface-hub==0.24.6
+
+# ---- Config / utils ----
+PyYAML==6.0.2
+streamlit==1.37.1
+requests==2.32.3
