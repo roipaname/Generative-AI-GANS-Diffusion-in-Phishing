@@ -46,7 +46,7 @@ scikit-learn==1.5.2
 scipy==1.15.1
 matplotlib==3.9.2
 pillow==10.4.0
-tqdm==4.67.1
+#tqdm==4.67.1
 
 # TensorFlow (kept optional, but pinned to last stable 2.x)
 tensorflow==2.15.0
