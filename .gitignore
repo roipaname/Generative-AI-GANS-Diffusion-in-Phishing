@@ -215,4 +215,4 @@ outputs/
 .env
 *.pth
 *.pt
-*.h5
+*.h5test.py
