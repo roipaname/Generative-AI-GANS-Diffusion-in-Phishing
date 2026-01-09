@@ -2,10 +2,10 @@ import io
 import os, sys, time
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from diffusers import StableDiffusionPipeline
+#from diffusers import StableDiffusionPipeline
 from PIL import Image
 import numpy as np
-from transformers import AutoModelForCausalLM, AutoTokenizer
+#from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import tiktoken
 
@@ -185,7 +185,7 @@ async def api_classify_image(file: UploadFile = File(...)):
 async def api_classify_text_image(text: str = Form(...), file: UploadFile = File(...)):
     return classify_text_and_image(text, file)
 
-
+"""
 @app.post("/generate-image")
 async def api_generate_image(prompt: str = Form(...)):
     return {"image_url": generate_image_diffusion(prompt)}
@@ -193,4 +193,4 @@ async def api_generate_image(prompt: str = Form(...)):
 
 @app.post("/generate-python-code")
 async def api_generate_code(prompt: str = Form(...)):
-    return {"generated_code": generate_code(prompt)}
+    return {"generated_code": generate_code(prompt)}"""
