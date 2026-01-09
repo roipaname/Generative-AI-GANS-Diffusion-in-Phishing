@@ -213,3 +213,6 @@ data/
 data/raw/gpt/
 outputs/
 .env
+*.pth
+*.pt
+*.h5
